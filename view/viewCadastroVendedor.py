@@ -25,7 +25,7 @@ class ViewCadastroVendedor(View):
                     return values
                 window.Element("pass_not_equal").Update(visible=True)
             if event == "Voltar ao menu" or event == sg.WIN_CLOSED:
-                break
+                return self.voltar()
 
     def comecar(self):
         window = sg.Window("Cadastro de vendedor", layout=self.__layout, element_justification='c').Finalize()
