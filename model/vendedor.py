@@ -1,8 +1,8 @@
-class Vendedor():
+from .pessoa import Pessoa
 
-    def __init__(self, nome, cpf, acc, senha):
-        self.__nome = nome
-        self.__cpf = cpf
+class Vendedor(Pessoa):
+
+    def __init__(self, acc, senha):
         self.__acc = acc
         self.__senha = senha
 
