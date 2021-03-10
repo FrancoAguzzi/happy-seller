@@ -7,6 +7,9 @@ class Vendedor(Pessoa):
         self.__cpf = cpf
         self.__acc = acc
         self.__senha = senha
+        self.__horas_descansadas_dia = 0
+        self.__comissao_atual = 0.05
+        self.__salario = 0
 
     @property
     def nome(self):
