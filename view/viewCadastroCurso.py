@@ -22,13 +22,15 @@ class ViewCadastroCurso(View):
     def rodar(self, window):
         while True:
             event, values = window.read()
+            someEmptyField = False
             if event == "Enviar":
                 for value in values:
-                    if (values[value] != ""):
-                        return self.voltar(result = values, view=window)
-                    else:
+                    if (values[value] == ""):
+                        someEmptyField = True
                         window.Element("empty_field").Update(visible=True)
                         break
+                if (not someEmptyField):
+                    return self.voltar(result = values, view=window)
             if event == "Voltar ao menu" or event == sg.WIN_CLOSED:
                 return self.voltar(view=window)
 

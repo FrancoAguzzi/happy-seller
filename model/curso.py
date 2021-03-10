@@ -18,6 +18,6 @@ class Curso():
             ("cvv", self.__cvv),
             ("nome_curso", self.__nome_curso),
             ("link_curso", self.__link_curso),
-            ("preco_curso", self.__preco_curso)
+            ("preco_curso", self.__preco_curso),
             ("tempo_divulgacao", self.__tempo_divulgacao)
         )
