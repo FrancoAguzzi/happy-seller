@@ -3,7 +3,6 @@ from view.viewTelaInicial import ViewTelaInicial
 from control.controladorCurso import ControladorCurso
 from control.controladorVendedor import ControladorVendedor
 from control.controladorAnunciante import ControladorAnunciante
-from control.controladorAnunciarCurso import ControladorAnunciarCurso
 
 
 class ControladorSistema:
@@ -14,7 +13,6 @@ class ControladorSistema:
         self.__controlador_curso = ControladorCurso()
         self.__controlador_vendedor = ControladorVendedor()
         self.__controlador_anunciante = ControladorAnunciante()
-        self.__controlador_anunciar_curso = ControladorAnunciarCurso()
 
     def inicia(self):
         comecar = self.__tela_inicial.comecar()
@@ -51,7 +49,7 @@ class ControladorSistema:
     
     def anunciar_curso(self, cpf_anunciante):
         acao_tela_anunciar_curso = self \
-            .__controlador_anunciar_curso \
+            .__controlador_curso \
             .abrir_tela_anunciar_curso(cpf_anunciante)
         if acao_tela_anunciar_curso["result"]:
-            self.__controlador_anunciar_curso.anunciar_curso(acao_tela_anunciar_curso["result"])
+            self.__controlador_curso.anunciar_curso(acao_tela_anunciar_curso["result"])
