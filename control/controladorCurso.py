@@ -22,10 +22,7 @@ class ControladorCurso():
         cursos = self.filtrar_cursos_por_cpf(cpf_anunciante)
         cursos_na_frente = self.total_de_cursos_na_esteira()
         #return ViewAnuncioCurso(cursos, cursos_na_frente).comecar()
-        return ViewAnuncioCurso(
-                [{"nome": "abc"},{"nome":"def"}], 
-                5
-            ).comecar()
+        return ViewAnuncioCurso(cursos, 5).comecar()
 
     def filtrar_cursos_por_cpf(self, cpf_anunciante):
         return self.__dao_curso.filtrar_cursos_por_cpf(cpf_anunciante)
