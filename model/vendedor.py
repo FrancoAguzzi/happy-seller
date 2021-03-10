@@ -2,7 +2,9 @@ from .pessoa import Pessoa
 
 class Vendedor(Pessoa):
 
-    def __init__(self, acc, senha):
+    def __init__(self, nome, cpf, acc, senha):
+        self.__nome = nome
+        self.__cpf = cpf
         self.__acc = acc
         self.__senha = senha
 

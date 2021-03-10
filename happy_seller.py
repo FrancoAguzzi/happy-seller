@@ -1,5 +1,7 @@
-from control.controlador_sistema import ControladorSistema
+from control.controladorSistema import ControladorSistema
 
 if __name__ == "__main__":
     while True:
-        ControladorSistema().inicia()
+        result = ControladorSistema().inicia()
+        if result == "SAIR":
+            exit()

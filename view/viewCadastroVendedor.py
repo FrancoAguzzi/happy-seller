@@ -4,9 +4,28 @@ from .view import View
 
 class ViewCadastroVendedor(View):
 
-    def __init__(self):
-        self.__layout = [
+    def rodar(self, window):
+        while True:
+            event, values = window.read()
+            valid = True
+            if event == "Enviar":
+                if self.tem_valores_vazios(values):
+                    window.Element("empty_field").Update(visible=True)
+
+                elif values["password"] != values["confirm_pass"]:
+                    window.Element("pass_not_equal").Update(visible=True)
+
+                else:
+                    values.pop("confirm_pass")
+                    return self.voltar(result=values)
+                
+            if event == "Voltar ao menu" or event == sg.WIN_CLOSED:
+                return self.voltar()
+
+    def comecar(self):
+        layout = [
             [sg.Text("Cadastro de vendedor")],
+            [sg.Text("Preencha todos os campos", key="empty_field")],
             [sg.Text("Nome", size=(20, 1)), sg.Input(key="nome")],
             [sg.Text("CPF", size=(20, 1)), sg.Input(key="cpf")],
             [sg.Text("Conta Bancaria", size=(20, 1)), sg.Input(key="acc")],
@@ -17,20 +36,9 @@ class ViewCadastroVendedor(View):
             [sg.Button("Voltar ao menu")]
         ]
 
-    def rodar(self, window):
-        while True:
-            event, values = window.read()
-            if event == "Enviar":
-                if values["password"] == values["confirm_pass"]:
-                    return values
-                window.Element("pass_not_equal").Update(visible=True)
-            if event == "Voltar ao menu" or event == sg.WIN_CLOSED:
-                return self.voltar()
-
-    def comecar(self):
-        window = sg.Window("Cadastro de vendedor", layout=self.__layout, element_justification='c').Finalize()
+        window = sg.Window("Cadastro de vendedor", layout=layout, element_justification='c').Finalize()
         window.Element("pass_not_equal").Update(visible=False)
+        window.Element("empty_field").Update(visible=False)
         result = self.rodar(window)
         window.close()
-        result.pop("confirm_pass")
         return result
