@@ -14,6 +14,8 @@ class ViewTelaInicial(View):
                 return self.voltar('LOGIN_VENDEDOR')
             if event == "Cadastro Vendedor":
                 return self.voltar('CADASTRO_VENDEDOR')
+            if event == sg.WIN_CLOSED:
+                return self.voltar("SAIR")
 
     def comecar(self):
         layout = [

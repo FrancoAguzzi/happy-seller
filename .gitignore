@@ -2,3 +2,4 @@ vendedores.csv
 .vscode
 venv/
 *__pycache__*
+*.csv
