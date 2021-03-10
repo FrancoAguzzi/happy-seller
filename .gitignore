@@ -3,3 +3,4 @@ vendedores.csv
 venv/
 *__pycache__*
 *.csv
+build/
