@@ -10,6 +10,8 @@ class ViewTelaInicial(View):
                 return self.voltar('LOGIN_ANUNCIANTE')
             if event == "Cadastro de Curso":
                 return self.voltar('CADASTRO_DE_CURSO')
+            if event == "Anunciar Curso":
+                return self.voltar('ANUNCIAR_CURSO')
             if event == "Login Vendedor":
                 return self.voltar('LOGIN_VENDEDOR')
             if event == "Cadastro Vendedor":
@@ -22,6 +24,7 @@ class ViewTelaInicial(View):
             [sg.Text("Happy Seller")],
             [sg.Button("Login Anunciante")],
             [sg.Button("Cadastro de Curso")],
+            [sg.Button("Anunciar Curso")],
             [sg.Button("Login Vendedor")],
             [sg.Button("Cadastro Vendedor")]
         ]

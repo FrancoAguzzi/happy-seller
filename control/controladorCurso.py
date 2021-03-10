@@ -14,3 +14,9 @@ class ControladorCurso():
 
     def abrir_tela_curso(self):
         return self.__tela_cadastro_curso.comecar()
+
+    def filtrar_cursos_por_cpf(self, cpf_anunciante):
+        return self.__dao_curso.filtrar_cursos_por_cpf(cpf_anunciante)
+    
+    def total_de_cursos_na_esteira(self):
+        return self.__dao_curso.total_de_cursos_na_esteira()
