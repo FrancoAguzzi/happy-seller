@@ -22,7 +22,7 @@ class ViewCadastroVendedor(View):
 
                 campo_invalido = self.identificar_campos_invalidos(verificacoes, values)
                 if campo_invalido:
-                    window.Element("invalid_field").Update(f"{campo_invalido[0]} invalido: {campo_invalido[1]}", visible=True)
+                    window.Element("invalid_field").Update(f"Campo invalido: {campo_invalido[1]}", visible=True)
                     continue
 
                 values.pop("confirm_pass")

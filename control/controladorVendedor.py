@@ -24,7 +24,7 @@ class ControladorVendedor():
             ),
             "conta_bancaria": (
                 lambda acc: acc.isdecimal(),
-                "Conta deve ter apenas digitos"
+                "Conta bancaria deve ter apenas digitos"
             )
         }
         return self.__tela_cadastro_vendedor.comecar(verificacoes)

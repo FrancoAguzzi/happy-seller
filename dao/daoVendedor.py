@@ -1,3 +1,5 @@
+import os
+
 from dao.daoAbstrato import DaoAbstrato
 from model.vendedor import Vendedor
 
@@ -17,9 +19,10 @@ class DaoVendedor(DaoAbstrato):
 
     def carregar_dados(self):
         self.__cache = []
-        with open(self.__data_source, "r") as src:
-            for line in src.readlines():
-                self.__cache.append(Vendedor(*line.split(",")))
+        if os.path.isfile(self.__data_source):
+            with open(self.__data_source, "r") as src:
+                for line in src.readlines():
+                    self.__cache.append(Vendedor(*line.split(",")))
 
     def cadastrar_vendedor(self, vendedor):
         with open(self.__data_source, "a") as src:
