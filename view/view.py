@@ -22,3 +22,11 @@ class View(ABC):
             if v == "":
                 return True
         return False
+
+    def identificar_campos_invalidos(self, verificacoes, campos):
+        default = (lambda x: True, "Campo valido")
+
+        for k, v in campos.items():
+            f = verificacoes.setdefault(k, default)
+            if not f[0](v):
+                return k, f[1]
