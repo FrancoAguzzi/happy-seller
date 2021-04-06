@@ -1,7 +1,9 @@
 from control.controladorSistema import ControladorSistema
 
 if __name__ == "__main__":
+    tela = None
+    controlador = ControladorSistema()
     while True:
-        result = ControladorSistema().inicia()
-        if result == "SAIR":
+        tela = controlador.inicia(tela)
+        if tela == "SAIR":
             exit()

@@ -24,6 +24,10 @@ class Vendedor(Pessoa):
     def cnpj(self):
         return self.__cnpj
 
+    @property
+    def senha(self):
+        return self.__senha
+
     @nome.setter
     def nome(self, nome):
         self.__nome = nome

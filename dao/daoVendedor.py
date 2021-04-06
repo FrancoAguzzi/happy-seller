@@ -21,7 +21,7 @@ class DaoVendedor(DaoAbstrato):
         self.__cache = []
         if os.path.isfile(self.__data_source):
             with open(self.__data_source, "r") as src:
-                for line in src.readlines():
+                for line in src.read().splitlines():
                     self.__cache.append(Vendedor(*line.split(",")))
 
     def cadastrar_vendedor(self, vendedor):
@@ -50,3 +50,11 @@ class DaoVendedor(DaoAbstrato):
             if vendedor.cnpj == cnpj:
                 return True
         return False
+
+    
+    def pegar_vendedor(self, cnpj, senha):
+        if not self.__cache:
+            self.carregar_dados()
+        for vendedor in self.__cache:
+            if vendedor.cnpj == cnpj and vendedor.senha == senha:
+                return vendedor
