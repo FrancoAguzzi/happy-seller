@@ -8,6 +8,7 @@ class Curso():
         self.__nome_curso = nome_curso
         self.__link_curso = link_curso
         self.__preco_curso = preco_curso
+        self.__tempo_divulgacao = 0
 
     def pegar_dados_como_tuplas(self):
         return (
@@ -17,5 +18,6 @@ class Curso():
             ("cvv", self.__cvv),
             ("nome_curso", self.__nome_curso),
             ("link_curso", self.__link_curso),
-            ("preco_curso", self.__preco_curso)
+            ("preco_curso", self.__preco_curso),
+            ("tempo_divulgacao", self.__tempo_divulgacao)
         )

@@ -3,11 +3,11 @@ from abc import ABC, abstractmethod
 
 class View(ABC):
     @abstractmethod
-    def comecar(self):
+    def comecar(self, erro=None):
         pass
 
     @abstractmethod
-    def rodar(self, window):
+    def rodar(self, window, erro):
         pass
 
     def voltar(self, prox_tela = "MENU", result = None, view = None):
@@ -22,3 +22,4 @@ class View(ABC):
             if v == "":
                 return True
         return False
+

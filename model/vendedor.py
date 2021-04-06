@@ -2,11 +2,15 @@ from model.pessoa import Pessoa
 
 class Vendedor(Pessoa):
 
-    def __init__(self, nome, cpf, acc, senha):
+    def __init__(self, nome, cpf, conta_bancaria, cnpj, senha):
         self.__nome = nome
         self.__cpf = cpf
-        self.__acc = acc
+        self.__conta_bancaria = conta_bancaria
+        self.__cnpj = cnpj
         self.__senha = senha
+        self.__horas_descansadas_dia = 0
+        self.__comissao_atual = 0.05
+        self.__salario = 0
 
     @property
     def nome(self):
@@ -15,6 +19,14 @@ class Vendedor(Pessoa):
     @property
     def cpf(self):
         return self.__cpf
+
+    @property
+    def cnpj(self):
+        return self.__cnpj
+
+    @property
+    def senha(self):
+        return self.__senha
 
     @nome.setter
     def nome(self, nome):
@@ -28,6 +40,7 @@ class Vendedor(Pessoa):
         return (
             ("nome", self.__nome),
             ("cpf", self.__cpf),
-            ("acc", self.__acc),
+            ("conta_bancaria", self.__conta_bancaria),
+            ("cnpj", self.__cnpj),
             ("senha", self.__senha)
         )
