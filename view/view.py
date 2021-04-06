@@ -3,11 +3,11 @@ from abc import ABC, abstractmethod
 
 class View(ABC):
     @abstractmethod
-    def comecar(self):
+    def comecar(self, erro=None):
         pass
 
     @abstractmethod
-    def rodar(self, window):
+    def rodar(self, window, erro):
         pass
 
     def voltar(self, prox_tela = "MENU", result = None, view = None):
@@ -23,10 +23,3 @@ class View(ABC):
                 return True
         return False
 
-    def identificar_campos_invalidos(self, verificacoes, campos):
-        default = (lambda x: True, "Campo valido")
-
-        for k, v in campos.items():
-            f = verificacoes.setdefault(k, default)
-            if not f[0](v):
-                return k, f[1]

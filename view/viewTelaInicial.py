@@ -14,17 +14,30 @@ class ViewTelaInicial(View):
                 return self.voltar('LOGIN_VENDEDOR')
             if event == "Cadastro Vendedor":
                 return self.voltar('CADASTRO_VENDEDOR')
+            if event == "Ver perfil":
+                return self.voltar("PERFIL_VENDEDOR")
+            if event == "Sair":
+                return self.voltar("LOGOUT")
             if event == sg.WIN_CLOSED:
                 return self.voltar("SAIR")
 
-    def comecar(self):
+    def comecar(self, e_vendedor=False):
         layout = [
-            [sg.Text("Happy Seller")],
-            [sg.Button("Login Anunciante")],
-            [sg.Button("Cadastro de Curso")],
-            [sg.Button("Login Vendedor")],
-            [sg.Button("Cadastro Vendedor")]
+            [sg.Text("Happy Seller")]
         ]
+        if not e_vendedor:
+            layout.extend([
+                [sg.Button("Login Anunciante")],
+                [sg.Button("Cadastro de Curso")],
+                [sg.Button("Login Vendedor")],
+                [sg.Button("Cadastro Vendedor")]
+            ])
+        else:
+            layout.extend([
+                [sg.Button("Ver perfil")],
+                [sg.Button("Sair")]
+            ])
+
         window = sg.Window("Happy Seller", layout=layout, element_justification='c').Finalize()
         result = self.rodar(window)
         window.close()
