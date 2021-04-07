@@ -34,6 +34,5 @@ class ViewCadastroCurso(View):
         window = sg.Window("Cadastro de Curso", layout=self.__layout, element_justification='c').Finalize()
         window.Element("empty_field").Update(visible=False)
         result = self.rodar(window)
-        print(result)
         window.close()
         return result
