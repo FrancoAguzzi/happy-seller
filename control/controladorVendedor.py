@@ -26,7 +26,6 @@ class ControladorVendedor():
                     continue
                 else:
                     result["result"].pop("confirmacao")
-                    self.cadastrar_vendedor(**result["result"])
             return result
 
 
