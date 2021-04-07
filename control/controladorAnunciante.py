@@ -12,8 +12,8 @@ class ControladorAnunciante():
         self.__tela_login_anunciante = ViewLoginAnunciante()
         self.__tela_anunciante_logado = ViewAnuncianteLogado()
 
-    def cadastrar_anunciante(self, nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha, cursos_cadastrados = []):
-        anunciante = Anunciante(nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha, cursos_cadastrados)
+    def cadastrar_anunciante(self, nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha):
+        anunciante = Anunciante(nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha)
         return self.__dao_anunciante.cadastrar_anunciante(anunciante)
 
     def abrir_tela_anunciante(self):

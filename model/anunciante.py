@@ -28,10 +28,6 @@ class Anunciante(Pessoa):
     @cpf.setter
     def cpf(self, cpf):
         self.__cpf = cpf
-        
-    @cursos_cadastrados.setter
-    def cursos_cadastrados(self, cursos):
-        self.__cursos_cadastrados = cursos
 
     def pegar_dados_como_tuplas(self):
         return (
