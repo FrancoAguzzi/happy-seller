@@ -4,7 +4,6 @@ import csv
 from dao.daoAbstrato import DaoAbstrato
 from model.anunciante import Anunciante
 
-
 class DaoAnunciante(DaoAbstrato):
     def __init__(self, data_source):
         self.__data_source = data_source
