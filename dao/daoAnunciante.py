@@ -4,6 +4,7 @@ import csv
 from dao.daoAbstrato import DaoAbstrato
 from model.anunciante import Anunciante
 
+
 class DaoAnunciante(DaoAbstrato):
     def __init__(self, data_source):
         self.__data_source = data_source
@@ -17,13 +18,6 @@ class DaoAnunciante(DaoAbstrato):
     def data_source(self, source):
         self.__data_source = source
 
-    def carregar_dados(self):
-        self.__cache = []
-        if os.path.isfile(self.__data_source):
-            with open(self.__data_source, "r") as src:
-                for line in src.read().splitlines():
-                    self.__cache.append(Anunciante(*line.split(",")))
-
     def cadastrar_anunciante(self, anunciante):
         with open(self.__data_source, "a") as src:
             dados = anunciante.pegar_dados_como_tuplas()
@@ -31,20 +25,19 @@ class DaoAnunciante(DaoAbstrato):
             for (k, v) in dados:
                 linha += f"{v},"
             src.write(linha[:-1] + "\n")
-        self.carregar_dados()
-
+        self.__cache = self.carregar_dados(Anunciante, self.__data_source)
 
     def existe_cpf(self, cpf):
         if not self.__cache:
-            self.carregar_dados()
+            self.__cache = self.carregar_dados(Anunciante, self.__data_source)
         for anunciante in self.__cache:
             if anunciante.cpf == cpf:
                 return True
         return False
-    
+
     def pegar_anunciante(self, cpf, senha):
         if not self.__cache:
-            self.carregar_dados()
+            self.__cache = self.carregar_dados(Anunciante, self.__data_source)
         for anunciante in self.__cache:
             if anunciante.cpf == cpf and anunciante.senha == senha:
                 return anunciante
@@ -52,7 +45,7 @@ class DaoAnunciante(DaoAbstrato):
     def cadastrar_curso(self, curso):
         pass
         # if not self.__cache:
-        #     self.carregar_dados()
+        # self.__cache =  self.carregar_dados(Anunciante, self.__data_source)
         # lines = list()
         # dono_curso = {}
         # obj_curso = json.dumps({ nome_curso: curso.nome_curso, link_curso: curso.link_curso, preco_curso: curso.preco_curso })
@@ -76,9 +69,9 @@ class DaoAnunciante(DaoAbstrato):
         #         if cpf_atual == "10891990909":
         #             with open(self.__data_source, "w") as writer:
         #                 row.split(",")[5] = row.split(",")[5].split("]")[1].join('aaaa')
-            #     dados = anunciante.pegar_dados_como_tuplas()
-            #     linha = ""
-            #     for (k, v) in dados:
-            #         linha += f"{v},"
-            #     src.write(linha[:-1] + "\n")
-            # self.carregar_dados()
+        #     dados = anunciante.pegar_dados_como_tuplas()
+        #     linha = ""
+        #     for (k, v) in dados:
+        #         linha += f"{v},"
+        #     src.write(linha[:-1] + "\n")
+        # self.__cache =  self.carregar_dados(Anunciante, self.__data_source)

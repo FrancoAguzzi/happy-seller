@@ -16,13 +16,6 @@ class DaoVendedor(DaoAbstrato):
     def data_source(self, source):
         self.__data_source = source
 
-    # def carregar_dados(self):
-    #    self.__cache = []
-    #    if os.path.isfile(self.__data_source):
-    #        with open(self.__data_source, "r") as src:
-    #            for line in src.read().splitlines():
-    #                self.__cache.append(Vendedor(*line.split(",")))
-
     def cadastrar_vendedor(self, vendedor):
         with open(self.__data_source, "a") as src:
             dados = vendedor.pegar_dados_como_tuplas()
