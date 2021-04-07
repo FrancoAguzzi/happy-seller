@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 from .view import View
 
 
-class ViewCadastroVendedor(View):
+class ViewCadastroAnunciante(View):
 
     def rodar(self, window, erro):
         if erro:
@@ -20,12 +20,12 @@ class ViewCadastroVendedor(View):
 
     def comecar(self, erro=None, **kwargs):
         layout = [
-            [sg.Text("Cadastro de vendedor")],
+            [sg.Text("Cadastro de anunciante")],
             [sg.Text("", size=(50, 2), key="invalid_field", visible=False)],
             [sg.Text("Nome", size=(20, 1)), sg.Input(key="nome", default_text=kwargs.setdefault("nome", ""))],
             [sg.Text("CPF", size=(20, 1)), sg.Input(key="cpf", default_text=kwargs.setdefault("cpf", ""))],
-            [sg.Text("Conta Bancaria", size=(20, 1)), sg.Input(key="conta_bancaria", default_text=kwargs.setdefault("conta_bancaria", ""))],
-            [sg.Text("CNPJ", size=(20, 1)), sg.Input(key="cnpj", default_text=kwargs.setdefault("cnpj", ""))],
+            [sg.Text("Número do Cartão de Crédito", size=(20, 1)), sg.Input(key="numero_cartao_credito", default_text=kwargs.setdefault("numero_cartao_credito", ""))],
+            [sg.Text("CVV do Cartão de Crédito", size=(20, 1)), sg.Input(key="cvv_cartao_credito", default_text=kwargs.setdefault("cvv_cartao_credito", ""))],
             [sg.Text("Senha", size=(20, 1)), sg.Input(key="senha", password_char="*", default_text=kwargs.setdefault("senha", ""))],
             [sg.Text("Confirmar Senha", size=(20, 1)), sg.Input(key="confirmacao", password_char="*", default_text=kwargs.setdefault("confirmacao", ""))],
             [sg.Submit("Enviar")],
