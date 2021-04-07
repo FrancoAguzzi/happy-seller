@@ -16,12 +16,6 @@ class ControladorCurso():
     def abrir_tela_curso(self):
         return self.__tela_cadastro_curso.comecar()
 
-<<<<<<< HEAD
-=======
-    def abrir_anuncio_curso(self):
-        return self.__tela_anuncio_curso.comecar()
-    
->>>>>>> feecebec304946800e214a6e549983f9fb960e31
     def anunciar_curso(self, result):
         pass
 
@@ -36,8 +30,5 @@ class ControladorCurso():
     
     def total_de_cursos_na_esteira(self):
         return self.__dao_curso.total_de_cursos_na_esteira()
-<<<<<<< HEAD
     def abrir_anuncio_curso(self):
         return self.__tela_anuncio_curso.comecar()
-=======
->>>>>>> feecebec304946800e214a6e549983f9fb960e31
