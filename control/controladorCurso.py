@@ -7,7 +7,7 @@ class ControladorCurso():
     def __init__(self):
         self.__dao_anunciante = DaoAnunciante("anunciantes.csv")
         self.__tela_cadastro_curso = ViewCadastroCurso()
-        self.__tela_anuncio_curso = ViewAnuncioCurso()
+        # self.__tela_anuncio_curso = ViewAnuncioCurso()
 
     def cadastrar_curso(self, nome_curso, link_curso, preco_curso):
         curso = Curso(nome_curso, link_curso, preco_curso)
@@ -30,5 +30,6 @@ class ControladorCurso():
     
     def total_de_cursos_na_esteira(self):
         return self.__dao_curso.total_de_cursos_na_esteira()
-    def abrir_anuncio_curso(self):
-        return self.__tela_anuncio_curso.comecar()
+
+    # def abrir_anuncio_curso(self):
+    #     return self.__tela_anuncio_curso.comecar()
