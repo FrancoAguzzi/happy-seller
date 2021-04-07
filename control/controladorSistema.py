@@ -1,7 +1,9 @@
 from view.viewCadastroVendedor import ViewCadastroVendedor
+from view.viewCadastroAnunciante import ViewCadastroAnunciante
 from view.viewTelaInicial import ViewTelaInicial
 from control.controladorCurso import ControladorCurso
 from control.controladorVendedor import ControladorVendedor
+from control.controladorAnunciante import ControladorAnunciante
 
 
 class ControladorSistema:
@@ -11,6 +13,7 @@ class ControladorSistema:
         self.__tela_inicial = ViewTelaInicial()
         self.__controlador_curso = ControladorCurso()
         self.__controlador_vendedor = ControladorVendedor()
+        self.__controlador_anunciante = ControladorAnunciante()
         self.__vendedor = None
         self.__anunciante = None
         self.__esta_logado = False
@@ -21,21 +24,27 @@ class ControladorSistema:
             acao_tela_comecar = self.__tela_inicial.comecar(e_vendedor=self.__vendedor)
             tela = acao_tela_comecar["prox_tela"]
 
+        # telas anunciante
         if (tela == "LOGIN_ANUNCIANTE"):
-            pass
-            # tela login anunciante
-        if (tela == "CADASTRO_DE_CURSO"):
-            return self.cadastrar_curso()
+            return self.login_anunciante()
+        if (tela == "ANUNCIANTE_LOGADO"):
+            return self.abrir_anunciante_logado()
+        if (tela == "CADASTRO_ANUNCIANTE"):
+            return self.cadastrar_anunciante()
 
+        # telas vendedor
         if (tela == "LOGIN_VENDEDOR"):
             return self.login_vendedor()
-            # tela login vendedor
         if (tela == "CADASTRO_VENDEDOR"):
             return self.cadastrar_vendedor()
-            # tela cadastro vendedor
-
         if tela == "PERFIL_VENDEDOR":
             return self.ver_perfil_vendedor()
+
+        #  telas curso
+        if (tela == "CADASTRO_DE_CURSO"):
+            return self.cadastrar_curso()
+        if (tela == "ANUNCIO_DE_CURSO"):
+            return self.anunciar_curso()
 
         if tela == "LOGOUT":
             self.__vendedor = None
@@ -46,11 +55,23 @@ class ControladorSistema:
         if tela == "SAIR":
             return "SAIR"
 
-    def cadastrar_curso(self):
-        acao_tela_curso = self.__controlador_curso.abrir_tela_curso()
-        if (acao_tela_curso["result"]):
-            self.__controlador_curso.cadastrar_curso(**acao_tela_curso["result"])
+    # métodos anunciante
+    def cadastrar_anunciante(self):
+        acao_tela_anunciante = self.__controlador_anunciante.abrir_tela_anunciante()
+        if (acao_tela_anunciante["result"]):
+            self.__controlador_anunciante.cadastrar_anunciante(**acao_tela_anunciante["result"])
+            
+    def login_anunciante(self):
+        acao_tela_login = self.__controlador_anunciante.abrir_tela_login()
+        if acao_tela_login["prox_tela"]:
+            return acao_tela_login["prox_tela"]
 
+    def abrir_anunciante_logado(self):
+        acao_tela_anunciante = self.__controlador_anunciante.abr
+        if acao_tela_anunciante["result"]:
+            self.__anunciante = acao_tela_login["result"]
+
+    # métodos vendedor  
     def cadastrar_vendedor(self):
         acao_tela_vendedor = self.__controlador_vendedor.abrir_tela_vendedor()
         if acao_tela_vendedor["result"]:
@@ -61,3 +82,14 @@ class ControladorSistema:
         if acao_tela_login["result"]:
             self.__vendedor = acao_tela_login["result"]
             self.__esta_logado = True
+
+    # métodos curso
+    def cadastrar_curso(self):
+        acao_tela_curso = self.__controlador_curso.abrir_tela_curso()
+        if (acao_tela_curso["result"]):
+            self.__controlador_curso.cadastrar_curso(**acao_tela_curso["result"])
+    
+    def anunciar_curso(self):
+        acao_tela_curso = self.__controlador_curso.abrir_anuncio_curso()
+        # if (acao_tela_curso["result"]):
+        #     self.__controlador_curso.cadastrar_curso(**acao_tela_curso["result"])

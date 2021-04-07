@@ -50,17 +50,17 @@ class ControladorVendedor():
         verificacoes = [
             (lambda: not campo_vazio, campo_vazio),
         
-            (lambda: senha == confirmacao, "As senhas nao batem"),
+            (lambda: senha == confirmacao, "As senhas não batem"),
 
-            (lambda: conta_bancaria.isdecimal(), "A conta deve conter apenas numeros"),
+            (lambda: conta_bancaria.isdecimal(), "A conta deve conter apenas números"),
 
-            (lambda: len(cnpj) == 14, "O CNPJ deve ter 11 digitos"),
-            (lambda: cnpj.isdecimal(), "O CNPJ deve conter apenas numeros"),
-            (lambda: not self.__dao_vendedor.existe_cnpj(cnpj), "CNPJ ja existe"),
+            (lambda: len(cnpj) == 14, "O CNPJ deve ter 14 dígitos"),
+            (lambda: cnpj.isdecimal(), "O CNPJ deve conter apenas números"),
+            (lambda: not self.__dao_vendedor.existe_cnpj(cnpj), "CNPJ já cadastrado"),
 
-            (lambda: len(cpf) == 11, "O CPF deve ter 11 digitos"),
-            (lambda: cpf.isdecimal(), "O CPF deve conter apenas numeros"),
-            (lambda: not self.__dao_vendedor.existe_cpf(cpf), "CPF ja existe")
+            (lambda: len(cpf) == 11, "O CPF deve ter 11 dígitos"),
+            (lambda: cpf.isdecimal(), "O CPF deve conter apenas números"),
+            (lambda: not self.__dao_vendedor.existe_cpf(cpf), "CPF já cadastrado")
         ]
 
         for e_valido, erro in verificacoes:
@@ -78,13 +78,13 @@ class ControladorVendedor():
 
             for campo, _nome in campos:
                 if not campo:
-                    return f"{_nome} esta vazio"
+                    return f"{_nome} está vazio"
         
         campo_vazio = pegar_campo_vazio()
         verificacoes = [
             (lambda: not campo_vazio, campo_vazio),
             (lambda: len(cnpj) == 14, "Tamanho do cnpj deve ser 14"),
-            (lambda: cnpj.isdecimal(), "CNPJ so pode conter numeros")
+            (lambda: cnpj.isdecimal(), "CNPJ só pode conter números")
         ]
 
         for e_valido, erro in verificacoes:
@@ -109,7 +109,7 @@ class ControladorVendedor():
 
             vendedor = self.__dao_vendedor.pegar_vendedor(**dados["result"])
             if not vendedor:
-                erro = "CNPJ ou senha nao encontrados"
+                erro = "CNPJ e/ou senha não encontrado(s)"
                 kwargs = dados["result"]
                 continue
 

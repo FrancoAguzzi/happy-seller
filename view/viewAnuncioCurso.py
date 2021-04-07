@@ -11,7 +11,6 @@ class ViewAnuncioCurso(View):
     def rodar(self, window):
         while True:
             event, values = window.read()
-
             duracao = 10
             valor = 500
             if values["extra_dez"]:
@@ -88,5 +87,4 @@ class ViewAnuncioCurso(View):
 
         result = self.rodar(window)
         window.close()
-        print(result)
         return result
