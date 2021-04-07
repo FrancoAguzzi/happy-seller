@@ -8,8 +8,8 @@ class ViewTelaInicial(View):
             event, values = window.read()
             if event == "Login Anunciante":
                 return self.voltar('LOGIN_ANUNCIANTE')
-            if event == "Cadastro de Curso":
-                return self.voltar('CADASTRO_DE_CURSO')
+            if event == "Cadastro Anunciante":
+                return self.voltar('CADASTRO_ANUNCIANTE')
             if event == "Login Vendedor":
                 return self.voltar('LOGIN_VENDEDOR')
             if event == "Cadastro Vendedor":
@@ -28,7 +28,7 @@ class ViewTelaInicial(View):
         if not e_vendedor:
             layout.extend([
                 [sg.Button("Login Anunciante")],
-                [sg.Button("Cadastro de Curso")],
+                [sg.Button("Cadastro Anunciante")],
                 [sg.Button("Login Vendedor")],
                 [sg.Button("Cadastro Vendedor")]
             ])

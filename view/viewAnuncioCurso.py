@@ -88,5 +88,4 @@ class ViewAnuncioCurso(View):
 
         result = self.rodar(window)
         window.close()
-        print(result)
         return result
