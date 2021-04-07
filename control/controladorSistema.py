@@ -27,8 +27,6 @@ class ControladorSistema:
         # telas anunciante
         if (tela == "LOGIN_ANUNCIANTE"):
             return self.login_anunciante()
-        if (tela == "ANUNCIANTE_LOGADO"):
-            return self.abrir_anunciante_logado()
         if (tela == "CADASTRO_ANUNCIANTE"):
             return self.cadastrar_anunciante()
 
@@ -44,7 +42,8 @@ class ControladorSistema:
         if (tela == "CADASTRO_DE_CURSO"):
             return self.cadastrar_curso()
         if (tela == "ANUNCIO_DE_CURSO"):
-            return self.anunciar_curso()
+            # return self.anunciar_curso('10891990909')
+            pass
 
         if tela == "LOGOUT":
             self.__vendedor = None
@@ -63,11 +62,13 @@ class ControladorSistema:
             
     def login_anunciante(self):
         acao_tela_login = self.__controlador_anunciante.abrir_tela_login()
-        if acao_tela_login["prox_tela"]:
-            return acao_tela_login["prox_tela"]
+        if acao_tela_login["prox_tela"] == 'CADASTRO_DE_CURSO':
+            self.cadastrar_curso()
+        elif acao_tela_login["prox_tela"] == 'ANUNCIO_DE_CURSO':
+            self.anunciar_curso(acao_tela_login["result"]["cpf"])
 
-    def abrir_anunciante_logado(self):
-        acao_tela_anunciante = self.__controlador_anunciante.abr
+    def abrir_anunciante_logado(self, cpf):
+        acao_tela_anunciante = self.__controlador_anunciante.abrir_anunciante_logado(cpf)
         if acao_tela_anunciante["result"]:
             self.__anunciante = acao_tela_login["result"]
 
@@ -89,7 +90,7 @@ class ControladorSistema:
         if (acao_tela_curso["result"]):
             self.__controlador_curso.cadastrar_curso(**acao_tela_curso["result"])
     
-    def anunciar_curso(self):
-        acao_tela_curso = self.__controlador_curso.abrir_anuncio_curso()
+    def anunciar_curso(self, cpf):
+        acao_tela_curso = self.__controlador_curso.abrir_tela_anunciar_curso(cpf)
         # if (acao_tela_curso["result"]):
         #     self.__controlador_curso.cadastrar_curso(**acao_tela_curso["result"])

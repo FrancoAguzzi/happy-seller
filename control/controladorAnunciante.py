@@ -10,7 +10,6 @@ class ControladorAnunciante():
         self.__dao_anunciante = DaoAnunciante("anunciantes.csv")
         self.__tela_cadastro_anunciante = ViewCadastroAnunciante()
         self.__tela_login_anunciante = ViewLoginAnunciante()
-        self.__tela_anunciante_logado = ViewAnuncianteLogado()
 
     def cadastrar_anunciante(self, nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha):
         anunciante = Anunciante(nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha)
@@ -28,7 +27,6 @@ class ControladorAnunciante():
                     continue
                 else:
                     result["result"].pop("confirmacao")
-                    self.cadastrar_anunciante(**result["result"])
             return result
 
 
@@ -117,20 +115,15 @@ class ControladorAnunciante():
                 kwargs = dados["result"]
                 continue
 
-            return self.abrir_anunciante_logado()
+            return self.abrir_anunciante_logado(dados["result"]["cpf"])
 
-    def abrir_anunciante_logado(self):
+    def abrir_anunciante_logado(self, cpf):
         erro = None
         kwargs = {}
         while True:
-            dados = self.__tela_anunciante_logado.comecar(erro, **kwargs)
+            dados = ViewAnuncianteLogado(cpf).comecar(erro, **kwargs)
 
             if not dados["result"]:
                 return dados
-
-            e_valido, erro = self.validar_dados_login(**dados["result"])
-            if not e_valido:
-                kwargs = dados["result"]
-                continue
             
-            return dados["prox_tela"]
+            return dados

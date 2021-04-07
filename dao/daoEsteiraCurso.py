@@ -37,7 +37,6 @@ class DaoEsteiraCurso(DaoAbstrato):
     
     def quantidade_cursos_na_frente(self):
         esteira = self.carregar_esteira_curso()
-        print(esteira)
         if not esteira:
             return 0
         else:
