@@ -3,7 +3,10 @@ import csv
 
 from dao.daoAbstrato import DaoAbstrato
 from model.anunciante import Anunciante
+<<<<<<< HEAD
 
+=======
+>>>>>>> feecebec304946800e214a6e549983f9fb960e31
 
 class DaoAnunciante(DaoAbstrato):
     def __init__(self, data_source):
@@ -82,4 +85,8 @@ class DaoAnunciante(DaoAbstrato):
             #     for (k, v) in dados:
             #         linha += f"{v},"
             #     src.write(linha[:-1] + "\n")
+<<<<<<< HEAD
             # self.carregar_dados()
+=======
+            # self.carregar_dados()
+>>>>>>> feecebec304946800e214a6e549983f9fb960e31

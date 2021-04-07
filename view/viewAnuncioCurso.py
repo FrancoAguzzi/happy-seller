@@ -11,7 +11,10 @@ class ViewAnuncioCurso(View):
     def rodar(self, window):
         while True:
             event, values = window.read()
+<<<<<<< HEAD
 
+=======
+>>>>>>> feecebec304946800e214a6e549983f9fb960e31
             duracao = 10
             valor = 500
             if values["extra_dez"]:
