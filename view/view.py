@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class View(ABC):
     @abstractmethod
-    def comecar(self, erro=None):
+    def comecar(self, erro=None, **kwargs):
         pass
 
     @abstractmethod
