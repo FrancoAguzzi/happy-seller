@@ -3,7 +3,7 @@ from .view import View
 
 class ViewTelaInicial(View):
     
-    def rodar(self, window):
+    def rodar(self, window, erro):
         while True:
             event, values = window.read()
             if event == "Login Anunciante":
@@ -21,11 +21,11 @@ class ViewTelaInicial(View):
             if event == sg.WIN_CLOSED:
                 return self.voltar("SAIR")
 
-    def comecar(self, e_vendedor=False):
+    def comecar(self, erro=None, **kwargs):
         layout = [
             [sg.Text("Happy Seller")]
         ]
-        if not e_vendedor:
+        if not kwargs.get("e_vendedor", False):
             layout.extend([
                 [sg.Button("Login Anunciante")],
                 [sg.Button("Cadastro Anunciante")],
@@ -39,6 +39,6 @@ class ViewTelaInicial(View):
             ])
 
         window = sg.Window("Happy Seller", layout=layout, element_justification='c').Finalize()
-        result = self.rodar(window)
+        result = self.rodar(window, erro)
         window.close()
         return result
