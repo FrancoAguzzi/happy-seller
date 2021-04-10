@@ -2,6 +2,7 @@ from model.vendedor import Vendedor
 from dao.daoVendedor import DaoVendedor
 from view.viewCadastroVendedor import ViewCadastroVendedor
 from view.viewLoginVendedor import ViewLoginVendedor
+from view.viewPerfilVendedor import ViewPerfilVendedor
 
 
 class ControladorVendedor():
@@ -9,10 +10,13 @@ class ControladorVendedor():
         self.__dao_vendedor = DaoVendedor("vendedores.csv")
         self.__tela_cadastro_vendedor = ViewCadastroVendedor()
         self.__tela_login_vendedor = ViewLoginVendedor()
+        self.__tela_perfil_vendedor = ViewPerfilVendedor()
+
 
     def cadastrar_vendedor(self, nome, cpf, conta_bancaria, cnpj, senha):
         vendedor = Vendedor(nome, cpf, conta_bancaria, cnpj, senha)
         return self.__dao_vendedor.cadastrar_vendedor(vendedor)
+
 
     def abrir_tela_vendedor(self):
         erro = None
@@ -26,7 +30,9 @@ class ControladorVendedor():
                     continue
                 else:
                     result["result"].pop("confirmacao")
-            return result
+                    self.cadastrar_vendedor(**result["result"])
+            else:
+                return result
 
 
     def validar_dados_cadastro(self, nome, cpf, conta_bancaria, cnpj, senha, confirmacao):
@@ -68,10 +74,10 @@ class ControladorVendedor():
         return (True, None)
 
 
-    def validar_dados_login(self, cnpj, senha):
+    def validar_dados_login(self, cpf, senha):
         def pegar_campo_vazio():
             campos = [
-                (cnpj, "cnpj"),
+                (cpf, "cpf"),
                 (senha, "senha")
             ]
 
@@ -82,8 +88,8 @@ class ControladorVendedor():
         campo_vazio = pegar_campo_vazio()
         verificacoes = [
             (lambda: not campo_vazio, campo_vazio),
-            (lambda: len(cnpj) == 14, "Tamanho do cnpj deve ser 14"),
-            (lambda: cnpj.isdecimal(), "CNPJ só pode conter números")
+            (lambda: len(cpf) == 11, "Tamanho do cpf deve ser 11"),
+            (lambda: cpf.isdecimal(), "CPF só pode conter números")
         ]
 
         for e_valido, erro in verificacoes:
@@ -108,8 +114,80 @@ class ControladorVendedor():
 
             vendedor = self.__dao_vendedor.pegar_vendedor(**dados["result"])
             if not vendedor:
-                erro = "CNPJ e/ou senha não encontrado(s)"
+                erro = "CPF e/ou senha não encontrado(s)"
                 kwargs = dados["result"]
                 continue
 
             return { "prox_tela": "MENU", "result": vendedor }
+
+
+    def abrir_tela_perfil(self, vendedor):
+        erro = None
+        kwargs = {}
+        while True:
+            dados = self.__tela_perfil_vendedor.comecar(
+                erro, **{k:v for k, v in vendedor.pegar_dados_como_tuplas()}
+            )
+            if not dados["result"]:
+                return dados
+
+            if dados["result"].get("apagar"):
+                self.__dao_vendedor.apagar_vendedor(dados["result"]["cpf"])
+                return dados
+
+            e_valido, erro = self.validar_dados_perfil(**dados["result"])
+            if not e_valido:
+                kwargs = dados["result"]
+                continue
+            
+            if dados["result"]["senha_antiga"]:
+                if not self.__dao_vendedor.pegar_vendedor(dados["result"]["cpf"], dados["result"]["senha_antiga"]):
+                    erro = "Senha errada"
+                    kwargs = dados["result"]
+                    continue
+
+            vendedor_atualizado = self.__dao_vendedor.atualizar_vendedor(
+                vendedor.cpf,
+                conta_bancaria=dados["result"]["conta_bancaria"],
+                cnpj=dados["result"]["cnpj"],
+                senha=dados["result"]["senha_nova"]
+            )
+
+            return { "prox_tela": "MENU", "result": vendedor_atualizado }
+
+
+    def validar_dados_perfil(self, nome, cpf, conta_bancaria, cnpj, senha_antiga, senha_nova, confirmacao):
+        def pegar_campo_vazio():
+            campos = [
+                (conta_bancaria, "conta_bancaria"),
+                (cnpj, "cnpj")
+            ]
+
+            if senha_antiga or senha_nova:
+                campos.extend([
+                    (senha_antiga, "senha antiga"),
+                    (senha_nova, "senha nova"),
+                    (confirmacao, "confirmacao de senha")
+                ])
+
+            for campo, _nome in campos:
+                if not campo:
+                    return f"{_nome} esta vazio"
+        
+        campo_vazio = pegar_campo_vazio()
+
+        verificacoes = [
+            (lambda: not campo_vazio, campo_vazio),
+        
+            (lambda: senha_nova == confirmacao, "As senhas não batem"),
+
+            (lambda: conta_bancaria.isdecimal(), "A conta deve conter apenas números"),
+
+            (lambda: len(cnpj) == 14, "O CNPJ deve ter 14 dígitos"),
+            (lambda: cnpj.isdecimal(), "O CNPJ deve conter apenas números")
+        ]
+
+        for e_valido, erro in verificacoes:
+            if not e_valido():
+                return (False, erro)
+        return (True, None)

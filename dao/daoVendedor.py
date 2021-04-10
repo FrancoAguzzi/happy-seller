@@ -41,9 +41,37 @@ class DaoVendedor(DaoAbstrato):
                 return True
         return False
 
-    def pegar_vendedor(self, cnpj, senha):
+    def pegar_vendedor(self, cpf, senha):
         if not self.__cache:
             self.__cache = self.carregar_dados(Vendedor, self.__data_source)
         for vendedor in self.__cache:
-            if vendedor.cnpj == cnpj and vendedor.senha == senha:
+            if vendedor.cpf == cpf and vendedor.senha == senha:
                 return vendedor
+
+
+    def atualizar_vendedor(self, cpf, conta_bancaria, cnpj, senha):
+        vendedor_atualizado = None
+        for i, vendedor in enumerate(self.__cache):
+            if vendedor.cpf == cpf:
+                vendedor_atualizado = Vendedor(vendedor.nome, cpf, conta_bancaria, cnpj, senha)
+                self.__cache[i] = vendedor_atualizado
+                break
+
+        else:
+            return
+
+        self.salvar_dados(self.__cache)
+        self.__cache = self.carregar_dados(Vendedor, self.__data_source)
+        return vendedor_atualizado
+
+    def apagar_vendedor(self, cpf):
+        for i, vendedor in enumerate(self.__cache):
+            if vendedor.cpf == cpf:
+                del self.__cache[i]
+                break
+
+        else:
+            return
+
+        self.salvar_dados(self.__cache)
+        self.__cache = self.carregar_dados(Vendedor, self.__data_source)

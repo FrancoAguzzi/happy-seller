@@ -21,7 +21,7 @@ class ViewLoginVendedor(View):
     def comecar(self, erro=None, **kwargs):
         layout = [
             [sg.Text("", size=(50, 2), key="invalid_field", visible=False)],
-            [sg.Text("CNPJ", size=(20, 1)), sg.Input(key="cnpj", default_text=kwargs.setdefault("cnpj", ""))],
+            [sg.Text("CPF", size=(20, 1)), sg.Input(key="cpf", default_text=kwargs.setdefault("cpf", ""))],
             [sg.Text("Senha", size=(20, 1)), sg.Input(key="senha", password_char="*", default_text=kwargs.setdefault("senha", ""))],
             [sg.Submit("Enviar")],
             [sg.Button("Voltar ao menu")]
