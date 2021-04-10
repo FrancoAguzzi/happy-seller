@@ -1,4 +1,3 @@
-
 from dao.daoAbstrato import DaoAbstrato
 from model.vendedor import Vendedor
 
@@ -21,6 +20,8 @@ class DaoVendedor(DaoAbstrato):
             dados = vendedor.pegar_dados_como_tuplas()
             linha = ""
             for (k, v) in dados:
+                if k == "senha":
+                    v = self.encriptar_dado(v)
                 linha += f"{v},"
             src.write(linha[:-1] + "\n")
         self.__cache = self.carregar_dados(Vendedor, self.__data_source)
@@ -45,7 +46,7 @@ class DaoVendedor(DaoAbstrato):
         if not self.__cache:
             self.__cache = self.carregar_dados(Vendedor, self.__data_source)
         for vendedor in self.__cache:
-            if vendedor.cpf == cpf and vendedor.senha == senha:
+            if vendedor.cpf == cpf and vendedor.senha == self.encriptar_dado(senha):
                 return vendedor
 
 

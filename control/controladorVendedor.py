@@ -31,8 +31,7 @@ class ControladorVendedor():
                 else:
                     result["result"].pop("confirmacao")
                     self.cadastrar_vendedor(**result["result"])
-            else:
-                return result
+            return result
 
 
     def validar_dados_cadastro(self, nome, cpf, conta_bancaria, cnpj, senha, confirmacao):
