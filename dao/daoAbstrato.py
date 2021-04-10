@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import os
+import hashlib
 
 
 class DaoAbstrato(ABC):
@@ -30,3 +31,6 @@ class DaoAbstrato(ABC):
                 for (k, v) in valores:
                     linha += f"{v},"
                 src.write(linha[:-1] + "\n")
+
+    def encriptar_dado(self, dado):
+        return hashlib.sha256(dado.encode()).hexdigest()

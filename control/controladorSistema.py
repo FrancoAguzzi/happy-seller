@@ -79,9 +79,8 @@ class ControladorSistema:
     # métodos vendedor
     def cadastrar_vendedor(self):
         acao_tela_vendedor = self.__controlador_vendedor.abrir_tela_vendedor()
-        if acao_tela_vendedor["result"]:
-            self.__controlador_vendedor.cadastrar_vendedor(
-                **acao_tela_vendedor["result"])
+        if acao_tela_vendedor["prox_tela"]:
+            return acao_tela_vendedor["prox_tela"]
 
     def login_vendedor(self):
         acao_tela_login = self.__controlador_vendedor.abrir_tela_login()
