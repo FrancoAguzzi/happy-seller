@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Union
 import os
+import hashlib
 
 
 from model.anunciante import Anunciante
@@ -27,3 +28,15 @@ class DaoAbstrato(ABC):
                 for line in src.read().splitlines():
                     dados.append(model(*line.split(",")))
         return dados
+
+    def salvar_dados(self, dados):
+        with open(self.data_source, "w") as src:
+            for dado in dados:
+                valores = dado.pegar_dados_como_tuplas()
+                linha = ""
+                for (k, v) in valores:
+                    linha += f"{v},"
+                src.write(linha[:-1] + "\n")
+
+    def encriptar_dado(self, dado):
+        return hashlib.sha256(dado.encode()).hexdigest()

@@ -1,5 +1,3 @@
-from view.viewCadastroVendedor import ViewCadastroVendedor
-from view.viewCadastroAnunciante import ViewCadastroAnunciante
 from view.viewTelaInicial import ViewTelaInicial
 from control.controladorCurso import ControladorCurso
 from control.controladorVendedor import ControladorVendedor
@@ -74,8 +72,8 @@ class ControladorSistema:
     # métodos vendedor  
     def cadastrar_vendedor(self):
         acao_tela_vendedor = self.__controlador_vendedor.abrir_tela_vendedor()
-        if acao_tela_vendedor["result"]:
-            self.__controlador_vendedor.cadastrar_vendedor(**acao_tela_vendedor["result"])
+        if acao_tela_vendedor["prox_tela"]:
+            return acao_tela_vendedor["prox_tela"]
 
     def login_vendedor(self):
         acao_tela_login = self.__controlador_vendedor.abrir_tela_login()
@@ -93,3 +91,12 @@ class ControladorSistema:
         acao_tela_curso = self.__controlador_curso.abrir_anuncio_curso()
         # if (acao_tela_curso["result"]):
         #     self.__controlador_curso.cadastrar_curso(**acao_tela_curso["result"])
+
+    def ver_perfil_vendedor(self):
+        acao_tela_perfil = self.__controlador_vendedor.abrir_tela_perfil(self.__vendedor)
+        if acao_tela_perfil["result"]:
+            self.__vendedor = acao_tela_perfil["result"]
+
+        if acao_tela_perfil["result"].get("apagar"):
+            self.__vendedor = None
+            self.__esta_logado = False
