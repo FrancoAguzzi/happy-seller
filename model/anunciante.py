@@ -1,13 +1,15 @@
 from model.pessoa import Pessoa
 
+
 class Anunciante(Pessoa):
 
-    def __init__(self, nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha):
+    def __init__(self, nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha, cursos=[]):
         self.__nome = nome
         self.__cpf = cpf
         self.__numero_cartao_credito = numero_cartao_credito
         self.__cvv_cartao_credito = cvv_cartao_credito
         self.__senha = senha
+        self.__cursos = []
 
     @property
     def nome(self):
@@ -20,7 +22,7 @@ class Anunciante(Pessoa):
     @property
     def senha(self):
         return self.__senha
-    
+
     @nome.setter
     def nome(self, nome):
         self.__nome = nome
@@ -35,5 +37,6 @@ class Anunciante(Pessoa):
             ("cpf", self.__cpf),
             ("numero_cartao_credito", self.__numero_cartao_credito),
             ("cvv_cartao_credito", self.__cvv_cartao_credito),
-            ("senha", self.__senha)
+            ("senha", self.__senha),
+            ("cursos", self.__cursos)
         )

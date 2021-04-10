@@ -12,10 +12,10 @@ class ViewAnuncianteLogado(View):
             event, values = window.read()
             if event == "Cadastrar curso":
                 return self.voltar('CADASTRO_DE_CURSO')
-                
+
             if event == "Anunciar curso":
                 return self.voltar('ANUNCIO_DE_CURSO')
-                
+
             if event == "Voltar ao menu" or event == sg.WIN_CLOSED:
                 return self.voltar()
 
@@ -26,7 +26,8 @@ class ViewAnuncianteLogado(View):
             [sg.Button("Voltar ao menu")]
         ]
 
-        window = sg.Window("Login de anunciante", layout=layout, element_justification='c').Finalize()
+        window = sg.Window("Login de anunciante", layout=layout,
+                           element_justification='c').Finalize()
         result = self.rodar(window, erro)
         window.close()
         return result

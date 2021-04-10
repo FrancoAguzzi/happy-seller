@@ -1,11 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Union
 import os
-
-
-from model.anunciante import Anunciante
-from model.curso import Curso
-from model.vendedor import Vendedor
 
 
 class DaoAbstrato(ABC):
@@ -20,7 +14,7 @@ class DaoAbstrato(ABC):
     def data_source(self, source):
         pass
 
-    def carregar_dados(self, model: Union[Anunciante, Curso, Vendedor], data_source):
+    def carregar_dados(self, model, data_source):
         dados = []
         if os.path.isfile(data_source):
             with open(data_source, "r") as src:

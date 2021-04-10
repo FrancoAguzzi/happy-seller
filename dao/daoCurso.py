@@ -21,7 +21,7 @@ class DaoCurso(DaoAbstrato):
             for (k, v) in dados:
                 linha += f"{v},"
             src.write(linha[:-1] + "\n")
-    
+
     def filtrar_cursos_por_cpf(self, cpf_anunciante):
         cursos = []
         with open(self.__data_source, "r") as src:
@@ -44,7 +44,7 @@ class DaoCurso(DaoAbstrato):
                 })
             return cursos_filtrados
         return []
-    
+
     def total_de_cursos_na_esteira(self):
         pass
-        #return DaoEsteiraCurso("esteira_cursos.csv").quantidade_cursos_na_frente()
+        # return DaoEsteiraCurso("esteira_cursos.csv").quantidade_cursos_na_frente()
