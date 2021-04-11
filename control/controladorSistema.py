@@ -19,14 +19,21 @@ class ControladorSistema:
     def inicia(self, tela=None):
         if not tela:
             acao_tela_comecar = self.__tela_inicial.comecar(
-                e_vendedor=self.__vendedor)
+                e_vendedor=self.__vendedor, e_anunciante=self.__anunciante)
             tela = acao_tela_comecar["prox_tela"]
+
+        if tela == "LOGOUT":
+            self.__vendedor = None
+            self.__anunciante = None
+            self.__esta_logado = False
+            return
+
+        if tela == "SAIR":
+            return "SAIR"
 
         # telas anunciante
         if (tela == "LOGIN_ANUNCIANTE"):
             return self.login_anunciante()
-        if (tela == "ANUNCIANTE_LOGADO"):
-            return self.abrir_anunciante_logado()
         if (tela == "CADASTRO_ANUNCIANTE"):
             return self.cadastrar_anunciante()
 
@@ -44,15 +51,6 @@ class ControladorSistema:
         if (tela == "ANUNCIO_DE_CURSO"):
             return self.anunciar_curso()
 
-        if tela == "LOGOUT":
-            self.__vendedor = None
-            self.__anunciante = None
-            self.__esta_logado = False
-            return
-
-        if tela == "SAIR":
-            return "SAIR"
-
     # métodos anunciante
     def cadastrar_anunciante(self):
         acao_tela_anunciante = self.__controlador_anunciante.abrir_tela_anunciante()
@@ -63,15 +61,6 @@ class ControladorSistema:
         if acao_tela_login["result"]:
             self.__anunciante = acao_tela_login["result"]
             self.__esta_logado = True
-
-        if acao_tela_login["prox_tela"]:
-            return acao_tela_login["prox_tela"]
-
-    def abrir_anunciante_logado(self):
-        acao_tela_anunciante = self.__controlador_anunciante.abrir_anunciante_logado(
-            self.__anunciante)
-        if acao_tela_anunciante["prox_tela"]:
-            return acao_tela_anunciante["prox_tela"]
 
     # métodos curso
     def cadastrar_curso(self):

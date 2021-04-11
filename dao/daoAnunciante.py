@@ -19,7 +19,7 @@ class DaoAnunciante(DaoAbstrato):
     def data_source(self, source):
         self.__data_source = source
 
-    def cadastrar_anunciante(self, anunciante):
+    def cadastrar_anunciante(self, anunciante, overwrite_password=True):
         with open(self.__data_source, "a") as src:
             dados = anunciante.pegar_dados_como_tuplas()
             linha = ""
@@ -30,7 +30,7 @@ class DaoAnunciante(DaoAbstrato):
                             linha += f"{v1}'"
                         linha = linha[:-1] + ";"
                     linha = linha[:-1] + ","
-                elif k == "senha":
+                elif k == "senha" and overwrite_password:
                     linha += f"{self.encriptar_dado(v)},"
                 else:
                     linha += f"{v},"
@@ -39,7 +39,7 @@ class DaoAnunciante(DaoAbstrato):
 
     def atualiza_anunciante(self, anunciante):
         self.apagar_anunciante(anunciante.cpf)
-        self.cadastrar_anunciante(anunciante)
+        self.cadastrar_anunciante(anunciante, False)
 
     def apagar_anunciante(self, cpf):
         for i, anunciante in enumerate(self.__cache):

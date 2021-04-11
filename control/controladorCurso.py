@@ -7,7 +7,6 @@ from view.viewAnuncioCurso import ViewAnuncioCurso
 class ControladorCurso():
     def __init__(self):
         self.__tela_cadastro_curso = ViewCadastroCurso()
-        # self.__tela_anuncio_curso = ViewAnuncioCurso()
 
     def cadastrar_curso(self, nome_curso, link_curso, preco_curso):
         return Curso(nome_curso, link_curso, preco_curso)
@@ -19,7 +18,7 @@ class ControladorCurso():
         pass
 
     def abrir_tela_anunciar_curso(self, cursos):
-        cursos_na_frente = self.total_de_cursos_na_esteira()
+        # cursos_na_frente = self.total_de_cursos_na_esteira()
         # return ViewAnuncioCurso(cursos, cursos_na_frente).comecar()
         return ViewAnuncioCurso(cursos, 5).comecar()
 
@@ -28,6 +27,3 @@ class ControladorCurso():
 
     def total_de_cursos_na_esteira(self):
         return self.__dao_curso.total_de_cursos_na_esteira()
-
-    # def abrir_anuncio_curso(self):
-    #     return self.__tela_anuncio_curso.comecar()

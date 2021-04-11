@@ -3,7 +3,6 @@ from control.controladorCurso import ControladorCurso
 from dao.daoAnunciante import DaoAnunciante
 from view.viewCadastroAnunciante import ViewCadastroAnunciante
 from view.viewLoginAnunciante import ViewLoginAnunciante
-from view.viewAnuncianteLogado import ViewAnuncianteLogado
 
 
 class ControladorAnunciante():
@@ -12,7 +11,6 @@ class ControladorAnunciante():
         self.__dao_anunciante = DaoAnunciante("anunciantes.csv")
         self.__tela_cadastro_anunciante = ViewCadastroAnunciante()
         self.__tela_login_anunciante = ViewLoginAnunciante()
-        self.__tela_anunciante_logado = ViewAnuncianteLogado()
 
     def cadastrar_anunciante(self, nome, cpf, numero_cartao_credito, cvv_cartao_credito, senha):
         anunciante = Anunciante(
@@ -125,22 +123,6 @@ class ControladorAnunciante():
 
             # return self.abrir_anunciante_logado(anunciante)
             return {"prox_tela": "ANUNCIANTE_LOGADO", "result": anunciante}
-
-    def abrir_anunciante_logado(self, anunciante):
-        erro = None
-        kwargs = {}
-        while True:
-            dados = self.__tela_anunciante_logado.comecar(erro, **kwargs)
-
-            if not dados["result"]:
-                return dados
-
-            e_valido, erro = self.validar_dados_login(**dados["result"])
-            if not e_valido:
-                kwargs = dados["result"]
-                continue
-
-            return dados["prox_tela"]
 
     def abrir_tela_cadastrar_curso(self, anunciante):
         acao_tela_curso = self.__controlador_curso.abrir_tela_curso()
