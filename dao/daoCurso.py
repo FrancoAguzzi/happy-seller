@@ -34,13 +34,9 @@ class DaoCurso(DaoAbstrato):
             cursos_filtrados = []
             for curso in cursos:
                 cursos_filtrados.append({
-                    "nome_anunc": curso[0],
-                    "cpf_anunc": curso[1],
-                    "ncc": curso[2],
-                    "cvv": curso[3],
-                    "nome_curso": curso[4],
-                    "link_curso": curso[5],
-                    "preco_curso": curso[6]
+                    "nome_curso": curso[0],
+                    "link_curso": curso[1],
+                    "preco_curso": curso[2]
                 })
             return cursos_filtrados
         return []
