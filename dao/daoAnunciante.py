@@ -30,6 +30,8 @@ class DaoAnunciante(DaoAbstrato):
                             linha += f"{v1}'"
                         linha = linha[:-1] + ";"
                     linha = linha[:-1] + ","
+                elif k == "senha":
+                    linha += f"{self.encriptar_dado(v)},"
                 else:
                     linha += f"{v},"
             src.write(linha[:-1] + "\n")
@@ -63,7 +65,7 @@ class DaoAnunciante(DaoAbstrato):
         if not self.__cache:
             self.__cache = self.carregar_dados(Anunciante, self.__data_source)
         for anunciante in self.__cache:
-            if anunciante.cpf == cpf and anunciante.senha == senha:
+            if anunciante.cpf == cpf and anunciante.senha == self.encriptar_dado(senha):
                 return anunciante
 
     def cadastrar_curso(self, anunciante: Anunciante, curso):
