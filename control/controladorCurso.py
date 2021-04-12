@@ -2,18 +2,61 @@ from model.curso import Curso
 from view.viewCadastroCurso import ViewCadastroCurso
 from view.viewAnuncioCurso import ViewAnuncioCurso
 from control.controladorAnuncio import ControladorAnuncio
+from dao.daoAnunciante import DaoAnunciante
 
 
 class ControladorCurso():
     def __init__(self):
         self.__tela_cadastro_curso = ViewCadastroCurso()
         self.__controlador_anuncio = ControladorAnuncio()
+        self.__dao_anunciante = DaoAnunciante("anunciantes.csv")
 
     def cadastrar_curso(self, nome_curso, link_curso, preco_curso):
         return Curso(nome_curso, link_curso, preco_curso)
 
     def abrir_tela_curso(self):
-        return self.__tela_cadastro_curso.comecar()
+        erro = None
+        kwargs = {}
+        while True:
+            dados = self.__tela_cadastro_curso.comecar(erro, **kwargs)
+
+            if not dados["result"]:
+                return dados
+
+            e_valido, erro = self.validar_dados_cadastro_curso(
+                **dados["result"])
+            if not e_valido:
+                kwargs = dados["result"]
+                continue
+
+            return dados
+
+    def validar_dados_cadastro_curso(self, nome_curso, link_curso, preco_curso):
+        def pegar_campo_vazio():
+            campos = [
+                (nome_curso, "Nome do Curso"),
+                (link_curso, "Link do Curso"),
+                (preco_curso, "Preço do Curso")
+            ]
+
+            for campo, _nome in campos:
+                if not campo:
+                    return f"{_nome} esta vazio"
+
+        campo_vazio = pegar_campo_vazio()
+
+        verificacoes = [
+            (lambda: not campo_vazio, campo_vazio),
+            (lambda: preco_curso.isdecimal(),
+             "O preço deve conter apenas números"),
+            (lambda: not self.__dao_anunciante.existe_curso(
+                nome_curso), "Curso já cadastrado"),
+        ]
+
+        for e_valido, erro in verificacoes:
+            if not e_valido():
+                return (False, erro)
+        return (True, None)
 
     def anunciar_curso(self, result):
         self.__controlador_anuncio.anunciar_curso(

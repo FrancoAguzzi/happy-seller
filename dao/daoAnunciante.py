@@ -72,3 +72,11 @@ class DaoAnunciante(DaoAbstrato):
         self.atualiza_anunciante(anunciante.insere_curso(curso))
 
         self.__cache = self.carregar_dados(Anunciante, self.__data_source)
+
+    def existe_curso(self, nome):
+        self.__cache = self.carregar_dados(Anunciante, self.__data_source)
+        for anunciante in self.__cache:
+            for curso in anunciante.cursos:
+                if curso.nome_curso == nome:
+                    return True
+        return False
