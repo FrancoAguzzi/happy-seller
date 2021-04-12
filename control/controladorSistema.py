@@ -45,6 +45,8 @@ class ControladorSistema:
             return self.cadastrar_vendedor()
         if tela == "PERFIL_VENDEDOR":
             return self.ver_perfil_vendedor()
+        if tela == "SALDO_VENDEDOR":
+            return self.ver_saldo_vendedor()
 
         #  telas curso
         if (tela == "CADASTRO_DE_CURSO"):
@@ -97,3 +99,7 @@ class ControladorSistema:
         if acao_tela_perfil["result"].get("apagar"):
             self.__vendedor = None
             self.__esta_logado = False
+
+    def ver_saldo_vendedor(self):
+        acao_tela_plantao = self.__controlador_vendedor.abrir_tela_saldo(
+            self.__vendedor)

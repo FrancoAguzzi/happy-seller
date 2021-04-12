@@ -3,6 +3,7 @@ from dao.daoVendedor import DaoVendedor
 from view.viewCadastroVendedor import ViewCadastroVendedor
 from view.viewLoginVendedor import ViewLoginVendedor
 from view.viewPerfilVendedor import ViewPerfilVendedor
+from view.viewSaldoVendedor import ViewSaldoVendedor
 
 
 class ControladorVendedor():
@@ -11,6 +12,7 @@ class ControladorVendedor():
         self.__tela_cadastro_vendedor = ViewCadastroVendedor()
         self.__tela_login_vendedor = ViewLoginVendedor()
         self.__tela_perfil_vendedor = ViewPerfilVendedor()
+        self.__tela_saldo_vendedor = ViewSaldoVendedor()
 
     def cadastrar_vendedor(self, nome, cpf, conta_bancaria, cnpj, senha):
         vendedor = Vendedor(nome, cpf, conta_bancaria, cnpj, senha)
@@ -186,3 +188,6 @@ class ControladorVendedor():
             if not e_valido():
                 return (False, erro)
         return (True, None)
+
+    def abrir_tela_saldo(self, vendedor):
+        return self.__tela_saldo_vendedor.comecar()

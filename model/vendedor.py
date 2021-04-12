@@ -1,5 +1,6 @@
 from model.pessoa import Pessoa
 
+
 class Vendedor(Pessoa):
 
     def __init__(self, nome, cpf, conta_bancaria, cnpj, senha):

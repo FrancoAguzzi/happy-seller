@@ -19,6 +19,8 @@ class ViewTelaInicial(View):
                 return self.voltar('CADASTRO_VENDEDOR')
             if event == "Ver perfil":
                 return self.voltar("PERFIL_VENDEDOR")
+            if event == "Ver saldo":
+                return self.voltar("SALDO_VENDEDOR")
             # Anunciante
             if event == "Cadastrar curso":
                 return self.voltar('CADASTRO_DE_CURSO')
@@ -37,6 +39,7 @@ class ViewTelaInicial(View):
         if kwargs.get("e_vendedor", True):
             layout.extend([
                 [sg.Button("Ver perfil")],
+                [sg.Button("Ver saldo")],
                 [sg.Button("Sair")]
             ])
         elif kwargs.get("e_anunciante", True):
