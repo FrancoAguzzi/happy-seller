@@ -11,7 +11,8 @@ class Vendedor(Pessoa):
         self.__senha = senha
         self.__horas_descansadas_dia = 0
         self.__comissao_atual = 0.05
-        self.__salario = 0
+        self.__salario_bruto_acumulado_plantao = 0
+        self.__salario_bruto = 0
 
     @property
     def nome(self):
@@ -29,6 +30,22 @@ class Vendedor(Pessoa):
     def senha(self):
         return self.__senha
 
+    @property
+    def horas_descansadas_dia(self):
+        return self.__horas_descansadas_dia
+
+    @property
+    def comissao_atual(self):
+        return self.__comissao_atual
+
+    @property
+    def salario_bruto_acumulado_plantao(self):
+        return self.__salario_bruto_acumulado_plantao
+
+    @property
+    def salario_bruto(self):
+        return self.__salario_bruto
+
     @nome.setter
     def nome(self, nome):
         self.__nome = nome
@@ -36,6 +53,22 @@ class Vendedor(Pessoa):
     @cpf.setter
     def cpf(self, cpf):
         self.__cpf = cpf
+
+    @horas_descansadas_dia.setter
+    def horas_descansadas_dia(self, horas_descansadas_dia):
+        self.__horas_descansadas_dia = horas_descansadas_dia
+
+    @comissao_atual.setter
+    def comissao_atual(self, comissao_atual):
+        self.__comissao_atual = comissao_atual
+
+    @salario_bruto_acumulado_plantao.setter
+    def salario_bruto_acumulado_plantao(self, salario_bruto_acumulado_plantao):
+        self.__salario_bruto_acumulado_plantao = salario_bruto_acumulado_plantao
+
+    @salario_bruto.setter
+    def salario_bruto(self, salario_bruto):
+        self.__salario_bruto = salario_bruto
 
     def pegar_dados_como_tuplas(self):
         return (
