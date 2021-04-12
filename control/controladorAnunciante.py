@@ -143,3 +143,5 @@ class ControladorAnunciante():
         if (acao_tela_curso["result"]):
             self.__controlador_curso.anunciar_curso(
                 acao_tela_curso["result"])
+
+        return {"prox_tela": None}
