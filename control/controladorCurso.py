@@ -1,5 +1,4 @@
 from model.curso import Curso
-from dao.daoAnunciante import DaoAnunciante
 from view.viewCadastroCurso import ViewCadastroCurso
 from view.viewAnuncioCurso import ViewAnuncioCurso
 
