@@ -49,12 +49,12 @@ class DaoVendedor(DaoAbstrato):
             if vendedor.cpf == cpf and vendedor.senha == self.encriptar_dado(senha):
                 return vendedor
 
-
     def atualizar_vendedor(self, cpf, conta_bancaria, cnpj, senha):
         vendedor_atualizado = None
         for i, vendedor in enumerate(self.__cache):
             if vendedor.cpf == cpf:
-                vendedor_atualizado = Vendedor(vendedor.nome, cpf, conta_bancaria, cnpj, senha)
+                vendedor_atualizado = Vendedor(
+                    vendedor.nome, cpf, conta_bancaria, cnpj, senha)
                 self.__cache[i] = vendedor_atualizado
                 break
 

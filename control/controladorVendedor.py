@@ -12,11 +12,9 @@ class ControladorVendedor():
         self.__tela_login_vendedor = ViewLoginVendedor()
         self.__tela_perfil_vendedor = ViewPerfilVendedor()
 
-
     def cadastrar_vendedor(self, nome, cpf, conta_bancaria, cnpj, senha):
         vendedor = Vendedor(nome, cpf, conta_bancaria, cnpj, senha)
         return self.__dao_vendedor.cadastrar_vendedor(vendedor)
-
 
     def abrir_tela_vendedor(self):
         erro = None
@@ -24,7 +22,8 @@ class ControladorVendedor():
         while True:
             result = self.__tela_cadastro_vendedor.comecar(erro=erro, **kwargs)
             if result["result"]:
-                e_valido, erro = self.validar_dados_cadastro(**result["result"])
+                e_valido, erro = self.validar_dados_cadastro(
+                    **result["result"])
                 if not e_valido:
                     kwargs = result["result"]
                     continue
@@ -32,7 +31,6 @@ class ControladorVendedor():
                     result["result"].pop("confirmacao")
                     self.cadastrar_vendedor(**result["result"])
             return result
-
 
     def validar_dados_cadastro(self, nome, cpf, conta_bancaria, cnpj, senha, confirmacao):
         def pegar_campo_vazio():
@@ -48,15 +46,16 @@ class ControladorVendedor():
             for campo, _nome in campos:
                 if not campo:
                     return f"{_nome} esta vazio"
-        
+
         campo_vazio = pegar_campo_vazio()
 
         verificacoes = [
             (lambda: not campo_vazio, campo_vazio),
-        
+
             (lambda: senha == confirmacao, "As senhas não batem"),
 
-            (lambda: conta_bancaria.isdecimal(), "A conta deve conter apenas números"),
+            (lambda: conta_bancaria.isdecimal(),
+             "A conta deve conter apenas números"),
 
             (lambda: len(cnpj) == 14, "O CNPJ deve ter 14 dígitos"),
             (lambda: cnpj.isdecimal(), "O CNPJ deve conter apenas números"),
@@ -72,7 +71,6 @@ class ControladorVendedor():
                 return (False, erro)
         return (True, None)
 
-
     def validar_dados_login(self, cpf, senha):
         def pegar_campo_vazio():
             campos = [
@@ -83,7 +81,7 @@ class ControladorVendedor():
             for campo, _nome in campos:
                 if not campo:
                     return f"{_nome} está vazio"
-        
+
         campo_vazio = pegar_campo_vazio()
         verificacoes = [
             (lambda: not campo_vazio, campo_vazio),
@@ -94,9 +92,8 @@ class ControladorVendedor():
         for e_valido, erro in verificacoes:
             if not e_valido():
                 return (False, erro)
-        
-        return (True, None)
 
+        return (True, None)
 
     def abrir_tela_login(self):
         erro = None
@@ -117,15 +114,14 @@ class ControladorVendedor():
                 kwargs = dados["result"]
                 continue
 
-            return { "prox_tela": "MENU", "result": vendedor }
-
+            return {"prox_tela": "MENU", "result": vendedor}
 
     def abrir_tela_perfil(self, vendedor):
         erro = None
         kwargs = {}
         while True:
             dados = self.__tela_perfil_vendedor.comecar(
-                erro, **{k:v for k, v in vendedor.pegar_dados_como_tuplas()}
+                erro, **{k: v for k, v in vendedor.pegar_dados_como_tuplas()}
             )
             if not dados["result"]:
                 return dados
@@ -138,7 +134,7 @@ class ControladorVendedor():
             if not e_valido:
                 kwargs = dados["result"]
                 continue
-            
+
             if dados["result"]["senha_antiga"]:
                 if not self.__dao_vendedor.pegar_vendedor(dados["result"]["cpf"], dados["result"]["senha_antiga"]):
                     erro = "Senha errada"
@@ -152,8 +148,7 @@ class ControladorVendedor():
                 senha=dados["result"]["senha_nova"]
             )
 
-            return { "prox_tela": "MENU", "result": vendedor_atualizado }
-
+            return {"prox_tela": "MENU", "result": vendedor_atualizado}
 
     def validar_dados_perfil(self, nome, cpf, conta_bancaria, cnpj, senha_antiga, senha_nova, confirmacao):
         def pegar_campo_vazio():
@@ -172,15 +167,16 @@ class ControladorVendedor():
             for campo, _nome in campos:
                 if not campo:
                     return f"{_nome} esta vazio"
-        
+
         campo_vazio = pegar_campo_vazio()
 
         verificacoes = [
             (lambda: not campo_vazio, campo_vazio),
-        
+
             (lambda: senha_nova == confirmacao, "As senhas não batem"),
 
-            (lambda: conta_bancaria.isdecimal(), "A conta deve conter apenas números"),
+            (lambda: conta_bancaria.isdecimal(),
+             "A conta deve conter apenas números"),
 
             (lambda: len(cnpj) == 14, "O CNPJ deve ter 14 dígitos"),
             (lambda: cnpj.isdecimal(), "O CNPJ deve conter apenas números")
