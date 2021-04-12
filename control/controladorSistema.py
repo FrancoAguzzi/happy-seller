@@ -2,6 +2,7 @@ from view.viewTelaInicial import ViewTelaInicial
 from control.controladorCurso import ControladorCurso
 from control.controladorVendedor import ControladorVendedor
 from control.controladorAnunciante import ControladorAnunciante
+from control.controladorAnuncio import ControladorAnuncio
 
 
 class ControladorSistema:
@@ -12,6 +13,7 @@ class ControladorSistema:
         self.__controlador_curso = ControladorCurso()
         self.__controlador_vendedor = ControladorVendedor()
         self.__controlador_anunciante = ControladorAnunciante()
+        self.__controlador_anuncio = ControladorAnuncio()
         self.__vendedor = None
         self.__anunciante = None
         self.__esta_logado = False
@@ -72,8 +74,9 @@ class ControladorSistema:
     def anunciar_curso(self):
         acao_tela_curso = self.__controlador_anunciante.abrir_tela_anunciar_curso(
             self.__anunciante)
-        # if (acao_tela_curso["result"]):
-        #     self.__controlador_curso.cadastrar_curso(**acao_tela_curso["result"])
+        if (acao_tela_curso["result"]):
+            self.__controlador_anuncio.anunciar_curso(
+                **acao_tela_curso["result"])
 
     # métodos vendedor
     def cadastrar_vendedor(self):

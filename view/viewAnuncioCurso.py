@@ -8,49 +8,33 @@ class ViewAnuncioCurso(View):
         self.__cursos = cursos
         self.__anuncios_frente = anuncios_frente
 
-    def rodar(self, window):
+    def rodar(self, window, erro, valor_final):
+        if erro:
+            window.Element("invalid_field").Update(
+                f"Campo inválido: {erro}", visible=True)
+        if valor_final:
+            window.Element("valor_final_list").Update(
+                visible=True, values=[f"R$ {valor_final},00"])
         while True:
             event, values = window.read()
-            duracao = 10
-            valor = 500
-            if values["extra_dez"]:
-                valor = valor + 500
-                duracao = 20
-            elif values["extra_vinte"]:
-                valor = valor + 1000
-                duracao = 30
-
-            if values["pular_qtd"]:
-                valor = valor + int(values["pular_qtd"]) * 100
-
-            curso_selecionado = ""
-            for curso in self.__cursos:
-                if values["nomeCurso." + curso.nome_curso]:
-                    curso_selecionado = curso.nome_curso
 
             if event == "Comprar":
-                if values["pular_qtd"] and int(values["pular_qtd"]) > self.__anuncios_frente:
-                    window.Element("quantidade_maior").Update(visible=True)
-                    window.Element("quantidade_menor").Update(visible=False)
-                elif values["pular_qtd"] and int(values["pular_qtd"]) < 0:
-                    window.Element("quantidade_maior").Update(visible=False)
-                    window.Element("quantidade_menor").Update(visible=True)
-                elif not curso_selecionado:
-                    window.Element("empty_field").Update(visible=True)
-                else:
-                    return self.voltar(view=window, result={"curso_selecionado": curso_selecionado, "duracao": duracao})
-            if event == "Sim":
-                window.Element("comprar_tempo_extra").Update(visible=True)
-                window.Element("pular_qtd").Update(visible=True)
+                window.Element("invalid_field").Update(visible=False)
+                return self.voltar(result=values)
             if event == "Calcular Valor Final":
-                window.Element("valor_final").Update(
-                    visible=True, values=[f"R$ {valor},00"])
+                values.update({"calcular": True})
+                return self.voltar(result=values)
+            if event == "Sim":
+                window.Element("pular_cursos").Update(visible=True)
+                window.Element("pular_qtd").Update(visible=True)
+
             if event == "Voltar ao Menu" or event == sg.WIN_CLOSED:
                 return self.voltar(view=window)
 
-    def comecar(self):
+    def comecar(self, erro=None, valor_final=None, **kwargs):
         layout = [
             [sg.Text("Anunciar Curso")],
+            [sg.Text("", size=(50, 2), key="invalid_field", visible=False)],
             [sg.Text("Cursos Disponíveis")],
             [sg.Column([
                 *[[sg.Radio(curso.nome_curso, group_id="curso_radio", key="nomeCurso." + curso.nome_curso), ] for curso in self.__cursos]
@@ -65,15 +49,11 @@ class ViewAnuncioCurso(View):
             [sg.Text("Pular Cursos?")],
             [sg.Button("Sim")],
             [
-                sg.Text("Quantidade", size=(10, 1), key="comprar_tempo_extra"),
+                sg.Text("Quantidade", size=(10, 1), key="pular_cursos"),
                 sg.Input(key="pular_qtd")
             ],
-            [sg.Text("Quantidade maior que total de cursos a frente!",
-                     key="quantidade_maior")],
-            [sg.Text("Quantidade inválida!", key="quantidade_menor")],
             [sg.Button("Calcular Valor Final")],
-            [sg.Listbox(values=[], key="valor_final", size=(20, 1))],
-            [sg.Text("Você deve selecionar um curso!", key="empty_field")],
+            [sg.Listbox(values=[], key="valor_final_list", size=(20, 1))],
             [sg.Submit("Comprar")],
             [sg.Button("Voltar ao Menu")]
         ]
@@ -81,13 +61,10 @@ class ViewAnuncioCurso(View):
         window = sg.Window("Anunciar Curso", layout=layout,
                            element_justification='c').Finalize()
 
-        window.Element("empty_field").Update(visible=False)
-        window.Element("comprar_tempo_extra").Update(visible=False)
+        window.Element("pular_cursos").Update(visible=False)
         window.Element("pular_qtd").Update(visible=False)
-        window.Element("quantidade_maior").Update(visible=False)
-        window.Element("quantidade_menor").Update(visible=False)
-        window.Element("valor_final").Update(visible=False)
+        window.Element("valor_final_list").Update(visible=False)
 
-        result = self.rodar(window)
+        result = self.rodar(window, erro, valor_final)
         window.close()
         return result
