@@ -1,11 +1,13 @@
 from model.curso import Curso
 from view.viewCadastroCurso import ViewCadastroCurso
 from view.viewAnuncioCurso import ViewAnuncioCurso
+from control.controladorAnuncio import ControladorAnuncio
 
 
 class ControladorCurso():
     def __init__(self):
         self.__tela_cadastro_curso = ViewCadastroCurso()
+        self.__controlador_anuncio = ControladorAnuncio()
 
     def cadastrar_curso(self, nome_curso, link_curso, preco_curso):
         return Curso(nome_curso, link_curso, preco_curso)
@@ -14,7 +16,8 @@ class ControladorCurso():
         return self.__tela_cadastro_curso.comecar()
 
     def anunciar_curso(self, result):
-        pass
+        self.__controlador_anuncio.anunciar_curso(
+            **result)
 
     def abrir_tela_anunciar_curso(self, cursos):
         erro = None
@@ -22,14 +25,12 @@ class ControladorCurso():
         curso_selecionado = None
         duracao = None
         pular_qtd = None
-        # cursos_na_frente = self.total_de_cursos_na_esteira()
-        cursos_na_frente = 5
+        cursos_na_frente = self.__controlador_anuncio.total_cursos()
         kwargs = {}
         while True:
             result = ViewAnuncioCurso(cursos, cursos_na_frente).comecar(
                 erro=erro, valor_final=valor_final, **kwargs)
             if result["result"]:
-
                 curso_selecionado = self.selecionar_curso(
                     cursos, **result["result"])
                 duracao = self.selecionar_duracao(**result["result"])
@@ -45,7 +46,14 @@ class ControladorCurso():
                     continue
                 if result["result"].get("calcular", False):
                     continue
-            return {"result": {"curso": curso_selecionado, "tempo_divulgacao": duracao, "pular_qtd": pular_qtd}}
+            return {
+                "prox_tela": result["prox_tela"],
+                "result": {
+                    "curso": curso_selecionado,
+                    "tempo_divulgacao": duracao,
+                    "pular_qtd": pular_qtd
+                }
+            }
 
     def selecionar_pular_qtd(self, **kwargs):
         pular = 0
