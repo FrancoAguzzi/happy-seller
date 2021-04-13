@@ -7,37 +7,34 @@ class ViewCadastroCurso(View):
     def __init__(self):
         pass
 
-    def rodar(self, window):
+    def rodar(self, window, erro):
+        if erro:
+            window.Element("invalid_field").Update(
+                f"Campo inválido: {erro}", visible=True)
         while True:
             event, values = window.read()
-            someEmptyField = False
             if event == "Enviar":
-                for value in values:
-                    if (values[value] == ""):
-                        someEmptyField = True
-                        window.Element("empty_field").Update(visible=True)
-                        break
-                if (not someEmptyField):
-                    return self.voltar(result=values)
+                window.Element("invalid_field").Update(visible=False)
+
+                return self.voltar(result=values)
             if event == "Voltar" or event == sg.WIN_CLOSED:
                 return self.voltar(view=window)
 
-    def comecar(self):
+    def comecar(self, erro=None, **kwargs):
         layout = [
             [sg.Text("Cadastro de Curso")],
+            [sg.Text("", size=(50, 2), key="invalid_field", visible=False)],
             [sg.Text("Nome do Curso", size=(20, 1)),
-             sg.Input(key="nome_curso")],
+             sg.Input(key="nome_curso", default_text=kwargs.setdefault("nome_curso"))],
             [sg.Text("Link do Curso", size=(20, 1)),
-             sg.Input(key="link_curso")],
+             sg.Input(key="link_curso", default_text=kwargs.setdefault("link_curso"))],
             [sg.Text("Preço do Curso", size=(20, 1)),
-             sg.Input(key="preco_curso")],
-            [sg.Text("Preencha todos os campos", key="empty_field")],
+             sg.Input(key="preco_curso", default_text=kwargs.setdefault("preco_curso"))],
             [sg.Submit("Enviar")],
             [sg.Button("Voltar")]
         ]
         window = sg.Window("Cadastro de Curso", layout=layout,
                            element_justification='c').Finalize()
-        window.Element("empty_field").Update(visible=False)
-        result = self.rodar(window)
+        result = self.rodar(window, erro)
         window.close()
         return result

@@ -108,6 +108,8 @@ class ControladorAnunciante():
         kwargs = {}
         while True:
             dados = self.__tela_login_anunciante.comecar(erro, **kwargs)
+            if not dados["result"]:
+                return dados
 
             e_valido, erro = self.validar_dados_login(**dados["result"])
             if not e_valido:
@@ -133,4 +135,13 @@ class ControladorAnunciante():
         return {"prox_tela": "ANUNCIANTE_LOGADO"}
 
     def abrir_tela_anunciar_curso(self, anunciante):
-        return self.__controlador_curso.abrir_tela_anunciar_curso(anunciante.cursos)
+        acao_tela_curso = self.__controlador_curso.abrir_tela_anunciar_curso(
+            anunciante.cursos)
+
+        if (not acao_tela_curso["result"]["curso"]):
+            return acao_tela_curso
+        if (acao_tela_curso["result"]):
+            self.__controlador_curso.anunciar_curso(
+                acao_tela_curso["result"])
+
+        return {"prox_tela": None}
