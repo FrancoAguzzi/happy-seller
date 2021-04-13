@@ -3,6 +3,8 @@ from dao.daoVendedor import DaoVendedor
 from view.viewCadastroVendedor import ViewCadastroVendedor
 from view.viewLoginVendedor import ViewLoginVendedor
 from view.viewPerfilVendedor import ViewPerfilVendedor
+from view.viewSaldoVendedor import ViewSaldoVendedor
+from view.viewSaldoSeraDebitado import ViewSaldoSeraDebitado
 
 
 class ControladorVendedor():
@@ -11,6 +13,8 @@ class ControladorVendedor():
         self.__tela_cadastro_vendedor = ViewCadastroVendedor()
         self.__tela_login_vendedor = ViewLoginVendedor()
         self.__tela_perfil_vendedor = ViewPerfilVendedor()
+        self.__tela_saldo_vendedor = ViewSaldoVendedor()
+        self.__tela_saldo_debitado = ViewSaldoSeraDebitado()
 
     def cadastrar_vendedor(self, nome, cpf, conta_bancaria, cnpj, senha):
         vendedor = Vendedor(nome, cpf, conta_bancaria, cnpj, senha)
@@ -186,3 +190,20 @@ class ControladorVendedor():
             if not e_valido():
                 return (False, erro)
         return (True, None)
+
+    def calcula_rendimentos(self, vendedor):
+        bruto = vendedor.salario_bruto
+        horario_cobrado = (vendedor.horas_descansadas_dia - 0.5)
+        if horario_cobrado < 0:
+            horario_cobrado = 0
+        desconto = round(horario_cobrado * 60, 2)
+        liquido = bruto - desconto
+        return [bruto, liquido, desconto]
+
+    def abrir_tela_saldo(self, vendedor):
+        [bruto, liquido, desconto] = self.calcula_rendimentos(vendedor)
+        return self.__tela_saldo_vendedor.comecar(bruto=bruto, liquido=liquido, descontado=desconto)
+
+    def abrir_tela_saldo_sera_debitado(self, vendedor):
+        [_bruto, liquido, _desconto] = self.calcula_rendimentos(vendedor)
+        return self.__tela_saldo_debitado.comecar(liquido=liquido)
