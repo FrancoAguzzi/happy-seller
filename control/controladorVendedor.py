@@ -215,3 +215,6 @@ class ControladorVendedor():
         else:
             vendedor.comissao_atual = 0.02
         vendedor.salario_bruto_acumulado_plantao += comissao_venda
+
+    def descontar_tempo(self, segundos, vendedor):
+        vendedor.horas_descansadas_dia += segundos / 3600

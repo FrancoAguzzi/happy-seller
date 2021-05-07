@@ -1,3 +1,5 @@
+import datetime
+
 from view.viewTelaInicial import ViewTelaInicial
 from control.controladorCurso import ControladorCurso
 from control.controladorVendedor import ControladorVendedor
@@ -121,6 +123,17 @@ class ControladorSistema:
         return self.__controlador_vendedor.abrir_tela_saldo_sera_debitado(vendedor)
 
     def ver_plantao(self):
-        acao_tela_perfil = self.__controlador_plantao.abrir_tela_temp()
-        if acao_tela_perfil["result"].get("acao") == "vender_curso":
-            self.__controlador_vendedor.vender_curso(acao_tela_perfil["result"]["venda"], self.__vendedor)
+        while True:
+            acao_tela_perfil = self.__controlador_plantao.abrir_tela_temp()
+            if acao_tela_perfil["result"].get("acao") == "vender_curso":
+                self.__controlador_vendedor.vender_curso(acao_tela_perfil["result"]["venda"], self.__vendedor)
+                return
+
+            elif acao_tela_perfil["result"].get("acao") == "pausar":
+                inicio = datetime.datetime.now()
+                self.__controlador_plantao.abrir_tela_temp(pausado=True)
+                fim = datetime.datetime.now()
+                self.__controlador_vendedor.descontar_tempo((fim - inicio).total_seconds(), self.__vendedor)
+
+            else:
+                return
