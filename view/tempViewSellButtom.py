@@ -27,8 +27,11 @@ class TempViewSellButtom(View):
             ])
         else:
             layout.extend([
+                [sg.Text("Comprador Atual")],
+                [sg.Text(kwargs.get("cliente")[0])],
+                [sg.Text(kwargs.get("cliente")[1])],
+                [sg.Text(kwargs.get("cliente")[2])],
                 [sg.Button("Pausar vendas")]
-                
             ])
         layout.extend([
             [sg.Button("Vender curso", disabled=kwargs.get("pausado"))],
