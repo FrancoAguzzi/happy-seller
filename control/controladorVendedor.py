@@ -207,3 +207,11 @@ class ControladorVendedor():
     def abrir_tela_saldo_sera_debitado(self, vendedor):
         [_bruto, liquido, _desconto] = self.calcula_rendimentos(vendedor)
         return self.__tela_saldo_debitado.comecar(liquido=liquido)
+
+    def vender_curso(self, venda, vendedor):
+        comissao_venda = vendedor.comissao_base + venda["valor"] * vendedor.comissao_atual
+        if vendedor.comissao_atual + 0.005 <= 0.02:
+            vendedor.comissao_atual += 0.005
+        else:
+            vendedor.comissao_atual = 0.02
+        vendedor.salario_bruto_acumulado_plantao += comissao_venda
