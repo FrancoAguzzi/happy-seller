@@ -10,9 +10,10 @@ class Vendedor(Pessoa):
         self.__cnpj = cnpj
         self.__senha = senha
         self.__horas_descansadas_dia = 0
-        self.__comissao_atual = 0.05
+        self.__comissao_atual = 0.0005
         self.__salario_bruto_acumulado_plantao = 0
         self.__salario_bruto = 0
+        self.__comissao_base = 0.1
 
     @property
     def nome(self):
@@ -45,6 +46,10 @@ class Vendedor(Pessoa):
     @property
     def salario_bruto(self):
         return self.__salario_bruto
+
+    @property
+    def comissao_base(self):
+        return self.__comissao_base
 
     @nome.setter
     def nome(self, nome):
