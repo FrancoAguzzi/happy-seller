@@ -14,7 +14,7 @@ class ViewLoginAnunciante(View):
                 window.Element("invalid_field").Update(visible=False)
 
                 return self.voltar(result=values)
-                
+
             if event == "Voltar ao menu" or event == sg.WIN_CLOSED:
                 return self.voltar()
 
