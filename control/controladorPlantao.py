@@ -1,18 +1,26 @@
 import random
 
 from view.tempViewSellButtom import TempViewSellButtom
+from view.viewControlarPlantao import ViewControlarPlantao
 from view.view import View
 
 
 class ControladorPlantao():
     def __init__(self):
         self.__view_sell_buttom = TempViewSellButtom()
+        self.__view_controlar_plantao = ViewControlarPlantao()
 
     def abrir_tela_temp(self, pausado=False):
         cliente = self.pegar_proximo_cliente()
         dados = self.__view_sell_buttom.comecar(pausado=pausado, cliente=cliente)
 
         return dados
+
+    def abrir_tela_controlar_plantao(self, anuncio_atual=None, pausado=False) -> dict:
+        return self.__view_controlar_plantao.comecar(anuncio_atual=anuncio_atual, pausado=pausado)
+
+    def pegar_proximo_curso(self):
+        pass
 
     def pegar_proximo_cliente(self):
         nomes = [

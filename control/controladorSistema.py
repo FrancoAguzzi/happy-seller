@@ -5,6 +5,7 @@ from control.controladorCurso import ControladorCurso
 from control.controladorVendedor import ControladorVendedor
 from control.controladorAnunciante import ControladorAnunciante
 from control.controladorPlantao import ControladorPlantao
+from control.controladorAnuncio import ControladorAnuncio
 from model.vendedor import Vendedor
 
 
@@ -17,6 +18,7 @@ class ControladorSistema:
         self.__controlador_vendedor = ControladorVendedor()
         self.__controlador_anunciante = ControladorAnunciante()
         self.__controlador_plantao = ControladorPlantao()
+        self.__controlador_anuncio = ControladorAnuncio()
 
         self.__vendedor = None
         self.__anunciante = None
@@ -112,28 +114,49 @@ class ControladorSistema:
             self.__esta_logado = False
 
     def ver_saldo_vendedor(self):
-        vendedor_prov = self.__vendedor
-        vendedor_prov.horas_descansadas_dia = 0.6
-        vendedor_prov.salario_bruto_acumulado_plantao = 1500
-        vendedor_prov.salario_bruto = 1500
-        acao_tela_plantao = self.__controlador_vendedor.abrir_tela_saldo(
-            vendedor_prov)
+        self.__controlador_vendedor.abrir_tela_saldo(
+            self.__vendedor)
 
     def ver_tela_saldo_sera_debitado(self, vendedor):
         return self.__controlador_vendedor.abrir_tela_saldo_sera_debitado(vendedor)
 
     def ver_plantao(self):
+        tempo = None
+        anuncio = None
         while True:
-            acao_tela_perfil = self.__controlador_plantao.abrir_tela_temp()
-            if acao_tela_perfil["result"].get("acao") == "vender_curso":
-                self.__controlador_vendedor.vender_curso(acao_tela_perfil["result"]["venda"], self.__vendedor)
-                return
+            voltar = False
+            anuncio, tempo = self.__controlador_anuncio.pegar_proximo_anuncio(
+                anuncio=anuncio,
+                tempo_atual=datetime.datetime.now(),
+                tempo_anterior=tempo
+            )
 
-            elif acao_tela_perfil["result"].get("acao") == "pausar":
+            acao_tela_controlar_plantao = self.__controlador_plantao.abrir_tela_controlar_plantao(anuncio)
+
+            if acao_tela_controlar_plantao.get("prox_tela", False) == "vender_curso" and anuncio:
+                while True and not voltar:
+                    acao_tela_vender_curso = self.__controlador_plantao.abrir_tela_temp()
+
+                    if acao_tela_vender_curso["result"].get("acao") == "vender_curso":
+                        self.__vendedor = (
+                            self.__controlador_vendedor
+                                .vender_curso(acao_tela_vender_curso["result"]["venda"], self.__vendedor)
+                        )
+
+                    if datetime.datetime.now() > tempo + datetime.timedelta(minutes=int(anuncio.tempo_divulgacao) / 10):
+                        voltar = True
+
+                    if acao_tela_vender_curso.get("prox_tela", False) == "MENU":
+                        return
+
+            if acao_tela_controlar_plantao["result"].get("acao") == "pausar":
                 inicio = datetime.datetime.now()
-                self.__controlador_plantao.abrir_tela_temp(pausado=True)
+                self.__controlador_plantao.abrir_tela_controlar_plantao(pausado=True)
                 fim = datetime.datetime.now()
-                self.__controlador_vendedor.descontar_tempo((fim - inicio).total_seconds(), self.__vendedor)
+                self.__vendedor = (
+                    self.__controlador_vendedor
+                        .descontar_tempo((fim - inicio).total_seconds(), self.__vendedor)
+                )
 
-            else:
+            if acao_tela_controlar_plantao.get("prox_tela", False) == "MENU":
                 return
