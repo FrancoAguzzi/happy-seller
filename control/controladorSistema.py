@@ -143,17 +143,20 @@ class ControladorSistema:
                                 .vender_curso(acao_tela_vender_curso["result"]["venda"], self.__vendedor)
                         )
 
-                    elif acao_tela_vender_curso["result"].get("acao") == "pausar":
-                        inicio = datetime.datetime.now()
-                        self.__controlador_plantao.abrir_tela_temp(pausado=True)
-                        fim = datetime.datetime.now()
-                        self.__vendedor = (
-                            self.__controlador_vendedor
-                                .descontar_tempo((fim - inicio).total_seconds(), self.__vendedor)
-                        )
-
                     if datetime.datetime.now() > tempo + datetime.timedelta(minutes=int(anuncio.tempo_divulgacao) / 10):
                         voltar = True
 
                     if acao_tela_vender_curso.get("prox_tela", False) == "MENU":
                         return
+
+            if acao_tela_controlar_plantao["result"].get("acao") == "pausar":
+                inicio = datetime.datetime.now()
+                self.__controlador_plantao.abrir_tela_controlar_plantao(pausado=True)
+                fim = datetime.datetime.now()
+                self.__vendedor = (
+                    self.__controlador_vendedor
+                        .descontar_tempo((fim - inicio).total_seconds(), self.__vendedor)
+                )
+
+            if acao_tela_controlar_plantao.get("prox_tela", False) == "MENU":
+                return

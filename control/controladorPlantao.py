@@ -16,8 +16,8 @@ class ControladorPlantao():
 
         return dados
 
-    def abrir_tela_controlar_plantao(self, anuncio_atual=None) -> dict:
-        return self.__view_controlar_plantao.comecar(anuncio_atual=anuncio_atual)
+    def abrir_tela_controlar_plantao(self, anuncio_atual=None, pausado=False) -> dict:
+        return self.__view_controlar_plantao.comecar(anuncio_atual=anuncio_atual, pausado=pausado)
 
     def pegar_proximo_curso(self):
         pass
